@@ -202,9 +202,11 @@ que `VITE_*` exige rebuild.
 
 ## Pendências
 
-- **Painel sem HTTPS**: falta setar o FQDN `https://coolify.agendar.tec.br` em
-  *Settings → Instance Settings*. O DNS já aponta. Depois disso dá para fechar
-  a porta 8000.
+- **Painel acessado por IP** (decisão): `http://2.25.195.45:8000`, sem domínio
+  e sem HTTPS. O registro `coolify.agendar.tec.br` existe no DNS mas não é
+  usado. Consequência: o login no painel trafega sem TLS e a porta 8000 fica
+  aberta. Para mudar, basta setar o FQDN em *Settings → Instance Settings* —
+  não há endpoint na API para isso.
 - **Sem deploy automático**: o repo `agendartech/agendar` é público, mas a conta
   usada não tem permissão de admin, então não foi possível criar o webhook nem
   instalar o GitHub App. Precisa de alguém com admin no repo.
