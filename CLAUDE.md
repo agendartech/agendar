@@ -4,11 +4,23 @@ Plataforma SaaS multi-tenant para agendamento de serviços, focada em salões de
 
 ## Ambiente
 
-**Status**: Em desenvolvimento (não está em produção)
+**Status**: Em desenvolvimento (sem usuários reais), mas já implantado
 
 - Pode limpar dados do banco sem preocupação
 - Pode atualizar/recriar tabelas livremente
 - Dados são de teste
+- Stripe roda em conta **sandbox**
+
+Existem dois ambientes no ar, em uma VPS com Coolify:
+
+| Ambiente | Web | API | Branch |
+|---|---|---|---|
+| production | https://agendar.tec.br | https://api.agendar.tec.br | `main` |
+| dev | https://dev.agendar.tec.br | https://api.dev.agendar.tec.br | `dev` |
+
+Detalhes de infraestrutura, decisões e armadilhas conhecidas:
+[`docs/deploy-coolify.md`](docs/deploy-coolify.md). **Leia antes de mexer em
+Dockerfile, variáveis de ambiente ou qualquer coisa de deploy.**
 
 ## Domínio do Negócio
 
