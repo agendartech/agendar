@@ -1,0 +1,10 @@
+node_modules
+dist
+drizzle/meta/_journal.json.bak
+docs
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.vscode
