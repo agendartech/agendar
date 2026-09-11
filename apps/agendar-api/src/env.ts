@@ -11,8 +11,14 @@ const envSchema = z.object({
     .enum(["development", "production", "test"])
     .default("development"),
   FIREBASE_SERVICE_ACCOUNT_KEY_ENCODED_JSON: z.string(),
+  // Bucket do Firebase Storage. Opcional: se ausente, o Admin SDK fica sem
+  // bucket padrao (hoje nada na API usa Storage, so messaging).
+  FIREBASE_STORAGE_BUCKET: z.string().optional(),
   RESEND_API_KEY: z.string(),
   RESEND_EMAIL: z.string(),
+  // Endereco de contato exibido nos templates de email. Cai no RESEND_EMAIL
+  // quando nao definido.
+  SUPPORT_EMAIL: z.string().optional(),
   FRONTEND_URL: z.string().default("http://localhost:3000"),
   // Origens extras liberadas no CORS, separadas por vírgula
   // (previews da Vercel, domínio customizado). O FRONTEND_URL já entra sozinho.
@@ -27,6 +33,7 @@ const parsedEnv = envSchema.parse(process.env)
 
 export const env = {
   ...parsedEnv,
+  SUPPORT_EMAIL: parsedEnv.SUPPORT_EMAIL ?? parsedEnv.RESEND_EMAIL,
   CORS_ORIGINS: [
     parsedEnv.FRONTEND_URL,
     ...(parsedEnv.CORS_ORIGINS?.split(",") ?? []),

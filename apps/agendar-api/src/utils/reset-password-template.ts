@@ -73,7 +73,7 @@ export function resetPasswordTemplate(token: string, name: string) {
                 <p style="margin:0;color:#6b7a90;font-size:13px;line-height:1.4;">
                   Se você não solicitou a redefinição de senha, ignore este e-mail.
                   Sua senha permanecerá a mesma. Em caso de dúvidas, entre em contato em
-                  <a href="mailto:${env.RESEND_EMAIL}" style="color:#4c63ff;text-decoration:underline;">${env.RESEND_EMAIL}</a>.
+                  <a href="mailto:${env.SUPPORT_EMAIL}" style="color:#4c63ff;text-decoration:underline;">${env.SUPPORT_EMAIL}</a>.
                 </p>
               </td>
             </tr>

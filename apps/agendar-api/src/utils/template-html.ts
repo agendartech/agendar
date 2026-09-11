@@ -65,8 +65,8 @@ export function sendCodeTemplate(
       
                 <p style="margin:0;color:#6b7a90;font-size:13px;line-height:1.4;">
                   Se você não criou essa conta, ignore este e-mail ou entre em contato com nosso suporte em
-                  <a style="color:#4c63ff;text-decoration:underline;">${env.RESEND_EMAIL}</a>.
-<!--                  <a href="mailto:{{supportEmail}}" style="color:#4c63ff;text-decoration:underline;">${env.RESEND_EMAIL}</a>.-->
+                  <a style="color:#4c63ff;text-decoration:underline;">${env.SUPPORT_EMAIL}</a>.
+<!--                  <a href="mailto:{{supportEmail}}" style="color:#4c63ff;text-decoration:underline;">${env.SUPPORT_EMAIL}</a>.-->
                 </p>
               </td>
             </tr>

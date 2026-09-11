@@ -11,7 +11,7 @@ const app: App =
         credential: cert(
           JSON.parse(atob(env.FIREBASE_SERVICE_ACCOUNT_KEY_ENCODED_JSON))
         ),
-        storageBucket: "agendar-dev-d7450.appspot.com",
+        storageBucket: env.FIREBASE_STORAGE_BUCKET,
       })
     : getApps()[0]
 
