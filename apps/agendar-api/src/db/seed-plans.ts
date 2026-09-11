@@ -45,7 +45,7 @@ const PLANS_DATA = [
   {
     name: "Semestral 1",
     description: "Plano semestral para 1 profissional — 10% de desconto",
-    price: 7191, // 79.90 * 0.9
+    price: 43146, // 79.90 * 0.9 * 6 meses
     intervalMonth: 6,
     trialPeriodDays: 30,
     minProfessionals: 1,
@@ -54,7 +54,7 @@ const PLANS_DATA = [
   {
     name: "Semestral 2",
     description: "Plano semestral para 2 a 7 profissionais — 10% de desconto",
-    price: 8973,
+    price: 53838, // 99.70 * 0.9 * 6 meses
     intervalMonth: 6,
     trialPeriodDays: 30,
     minProfessionals: 2,
@@ -63,7 +63,7 @@ const PLANS_DATA = [
   {
     name: "Semestral 3",
     description: "Plano semestral para 8 a 15 profissionais — 10% de desconto",
-    price: 14841,
+    price: 89046, // 164.90 * 0.9 * 6 meses
     intervalMonth: 6,
     trialPeriodDays: 30,
     minProfessionals: 8,
@@ -73,7 +73,7 @@ const PLANS_DATA = [
     name: "Semestral 4",
     description:
       "Plano semestral para mais de 15 profissionais — 10% de desconto",
-    price: 19791,
+    price: 118746, // 219.90 * 0.9 * 6 meses
     intervalMonth: 6,
     trialPeriodDays: 30,
     minProfessionals: 16,
@@ -83,7 +83,7 @@ const PLANS_DATA = [
   {
     name: "Anual 1",
     description: "Plano anual para 1 profissional — 20% de desconto",
-    price: 6392, // 79.90 * 0.8
+    price: 76704, // 79.90 * 0.8 * 12 meses
     intervalMonth: 12,
     trialPeriodDays: 30,
     minProfessionals: 1,
@@ -92,7 +92,7 @@ const PLANS_DATA = [
   {
     name: "Anual 2",
     description: "Plano anual para 2 a 7 profissionais — 20% de desconto",
-    price: 7976,
+    price: 95712, // 99.70 * 0.8 * 12 meses
     intervalMonth: 12,
     trialPeriodDays: 30,
     minProfessionals: 2,
@@ -101,7 +101,7 @@ const PLANS_DATA = [
   {
     name: "Anual 3",
     description: "Plano anual para 8 a 15 profissionais — 20% de desconto",
-    price: 13192,
+    price: 158304, // 164.90 * 0.8 * 12 meses
     intervalMonth: 12,
     trialPeriodDays: 30,
     minProfessionals: 8,
@@ -110,7 +110,7 @@ const PLANS_DATA = [
   {
     name: "Anual 4",
     description: "Plano anual para mais de 15 profissionais — 20% de desconto",
-    price: 17592,
+    price: 211104, // 219.90 * 0.8 * 12 meses
     intervalMonth: 12,
     trialPeriodDays: 30,
     minProfessionals: 16,
