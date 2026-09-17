@@ -26,9 +26,9 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import { useUpdateService } from "@/hooks/use-services"
 import { getCategories } from "@/http/categories/get-categories"
 import { deleteService } from "@/http/services/delete-service"
-import { updateService } from "@/http/services/update-service"
 import { uploadImage } from "@/lib/upload-image"
 import { convertCentsToUnmasked, formatDurationToString } from "@/lib/utils"
 import { type Service, updateServiceSchema } from "@/lib/validations/service"
@@ -64,14 +64,7 @@ export function UpdateServiceForm({ service }: { service: Service }) {
     },
   })
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: updateService,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [service.id] })
-
-      setIsLoading(false)
-    },
-  })
+  const { mutate, isPending } = useUpdateService()
 
   const { mutateAsync: deleteServiceMutate, isPending: deleteIsPending } =
     useMutation({
@@ -90,12 +83,15 @@ export function UpdateServiceForm({ service }: { service: Service }) {
       image = service.image
     }
 
-    mutate({
-      ...values,
-      image: image ?? undefined,
-      id: service.id,
-      categoryIds: selectedCategories,
-    })
+    mutate(
+      {
+        ...values,
+        image: image ?? undefined,
+        id: service.id,
+        categoryIds: selectedCategories,
+      },
+      { onSuccess: () => setIsLoading(false) }
+    )
   }
 
   return (
