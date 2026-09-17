@@ -22,7 +22,7 @@ export function useUpdateEmployee() {
       })
 
       queryClient.invalidateQueries({
-        queryKey: [employeeId],
+        queryKey: ["employees", employeeId],
       })
     },
   })
