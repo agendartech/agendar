@@ -18,8 +18,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import { useUpdateEmployee } from "@/hooks/use-employees"
 import { deleteEmployee } from "@/http/employees/delete-employee"
-import { updateEmployee } from "@/http/employees/update-employee"
 import { maskPhone } from "@/lib/masks"
 import { uploadImage } from "@/lib/upload-image"
 import {
@@ -49,9 +49,7 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
     },
   })
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: updateEmployee,
-  })
+  const { mutateAsync, isPending } = useUpdateEmployee()
 
   const { mutateAsync: deleteServiceMutate, isPending: deleteIsPending } =
     useMutation({
@@ -77,8 +75,6 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
       avatarUrl: image,
       id: employee.id,
     })
-
-    queryClient.invalidateQueries({ queryKey: [employee.id] })
 
     setIsLoading(false)
   }

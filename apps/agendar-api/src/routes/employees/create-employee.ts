@@ -28,7 +28,7 @@ export async function createEmployee(app: FastifyInstance) {
             .omit({ id: true })
             .extend({
               email: z.string().email(),
-              password: z.string().min(6),
+              password: z.string().min(8).max(100),
             }),
           response: {
             204: z.null(),

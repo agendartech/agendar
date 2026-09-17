@@ -36,17 +36,25 @@ export const createEmployeeSchema = employeeSchema
     email: z
       .string()
       .email({ message: "E-mail obrigatório" }),
-    password: z.string().min(6, {
-      message: "Senha deve ter no mínimo 6 caracteres",
-    }),
+    password: z
+      .string()
+      .min(8, {
+        message: "A senha deve ter no mínimo 8 caracteres",
+      })
+      .max(100, {
+        message: "A senha deve ter no máximo 100 caracteres",
+      }),
   })
 
 export const updateEmployeeSchema = employeeSchema.partial().extend({
   id: z.string().min(1, "ID obrigatório"),
   password: z
     .string()
-    .min(6, {
-      message: "Senha deve ter no mínimo 6 caracteres",
+    .min(8, {
+      message: "A senha deve ter no mínimo 8 caracteres",
+    })
+    .max(100, {
+      message: "A senha deve ter no máximo 100 caracteres",
     })
     .optional()
     .or(z.literal("")),
