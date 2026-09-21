@@ -9,6 +9,7 @@ Employee
 ├── name, email, phone, avatar, bio
 ├── password: Hash bcrypt (para login do employee)
 ├── active: Status do funcionário
+├── color: Hex escolhido pelo partner (uma das 20 de `utils/employee-colors.ts`)
 └── establishmentId: Estabelecimento
 
 EmployeeService (Serviços que o funcionário presta)
@@ -33,6 +34,12 @@ EmployeeService (Serviços que o funcionário presta)
 ### Validação de Agendamento:
 - Antes de criar agendamento, verifica se funcionário presta o serviço
 - Busca em `employeeServices` por `employeeId + serviceId`
+
+### Cor do Profissional:
+- Escolhida pelo partner no cadastro/edição (web e mobile), sem sorteio
+- Validada com `z.enum(EMPLOYEE_COLORS)`; default `#3b82f6`
+- Web e mobile espelham a lista em `employeeColorOptions`; ao mudar uma cor, atualizar os três
+- Retornada em `GET /employees`, `GET /employees/:id` e em `professional.color` de `GET /appointments`
 
 ## Bloqueios de Disponibilidade
 

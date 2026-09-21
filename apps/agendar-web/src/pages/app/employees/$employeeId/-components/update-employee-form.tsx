@@ -5,11 +5,13 @@ import { Loader2 } from "lucide-react"
 import React from "react"
 import { useForm } from "react-hook-form"
 import type z from "zod"
+import { EmployeeColorPicker } from "@/components/employee-color-picker"
 import LogoUploader from "@/components/logo-uploader"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -46,6 +48,7 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
       active: employee.active,
       address: employee.address,
       biography: employee.biography,
+      color: employee.color,
     },
   })
 
@@ -168,6 +171,26 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
           </FormControl>
           <FormMessage />
         </FormItem>
+
+        <FormField
+          control={form.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cor do profissional</FormLabel>
+              <FormControl>
+                <EmployeeColorPicker
+                  value={field.value ?? employee.color}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormDescription>
+                Identifica o profissional na agenda e nos agendamentos.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

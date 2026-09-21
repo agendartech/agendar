@@ -7,6 +7,7 @@ import { db } from "@/db"
 import { categories, employees, partners } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
+import { EMPLOYEE_COLORS } from "@/utils/employee-colors"
 import { establishmentHeaderSchema } from "@/utils/schemas/headers"
 import { BadRequestError } from "../_erros/bad-request-error"
 
@@ -34,6 +35,7 @@ export async function updateEmployee(app: FastifyInstance) {
             address: z.string().optional(),
             biography: z.string().optional(),
             avatarUrl: z.string().optional(),
+            color: z.enum(EMPLOYEE_COLORS).optional(),
           }),
           response: {
             204: z.null(),

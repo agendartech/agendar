@@ -27,6 +27,9 @@ export const employeeSchema = z.object({
     .string()
     .max(500, { message: "Biografia deve ter no máximo 500 caracteres" })
     .optional(),
+  color: z.string().regex(/^#[0-9a-fA-F]{6}$/, {
+    message: "Selecione uma cor",
+  }),
   services: z.array(employeeServiceSchema).optional(),
 })
 
