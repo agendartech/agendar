@@ -1,12 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { createRouter, RouterProvider } from "@tanstack/react-router"
-import { AxiosError } from "axios"
 import { NuqsAdapter } from "nuqs/adapters/react"
 import React from "react"
 import { I18nProvider } from "react-aria-components"
 
 import { toast } from "sonner"
 
+import { getErrorMessage } from "@/lib/error-message"
 import { routeTree } from "@/router-tree.gen"
 import { ThemeProvider } from "./components/theme-provider"
 import { Toaster } from "./components/ui/sonner"
@@ -55,16 +55,7 @@ export function App() {
           },
           mutations: {
             onError(error) {
-              if (error instanceof AxiosError) {
-                const message =
-                  error.response?.data?.message ??
-                  "Erro inesperado no servidor."
-
-                toast.error(message)
-                return
-              }
-
-              toast.error("Erro desconhecido. Tente novamente mais tarde.")
+              toast.error(getErrorMessage(error))
             },
           },
         },

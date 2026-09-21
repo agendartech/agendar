@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Clock2Icon, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type z from "zod"
 import { Button } from "@/components/ui/button"
 import {
@@ -63,6 +64,7 @@ export function CreateEmployeeRecurringBlock({
       queryKey: ["employee", employeeId, "recurring-blocks"],
     })
 
+    toast.success("Bloqueio recorrente criado com sucesso!")
     onSuccess?.()
   }
 

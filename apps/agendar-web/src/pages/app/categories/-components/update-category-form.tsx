@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type z from "zod"
 import { Button } from "@/components/ui/button"
 import {
@@ -41,6 +42,7 @@ export function UpdateCategoryForm({
   async function onSubmit(values: Inputs) {
     await mutateAsync({ ...values, id: category.id })
 
+    toast.success("Categoria atualizada com sucesso!")
     onSuccess?.()
   }
   return (

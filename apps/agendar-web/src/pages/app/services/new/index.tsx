@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
+import { getErrorMessage } from "@/lib/error-message"
 import { requirePartner } from "@/lib/route-guards"
 import { ChevronLeft, Loader2 } from "lucide-react"
 import React from "react"
@@ -67,11 +69,13 @@ function NewService() {
     mutationFn: createService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["services"] })
+      toast.success("Serviço criado com sucesso!")
       navigate({ to: "/app/services" })
       setIsLoading(false)
     },
-    onError: () => {
+    onError: error => {
       setIsLoading(false)
+      toast.error(getErrorMessage(error))
     },
   })
 

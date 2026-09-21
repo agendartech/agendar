@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
+import { getErrorMessage } from "@/lib/error-message"
 import { requirePartner } from "@/lib/route-guards"
 import { ArrowUp, ChevronLeft, Loader2 } from "lucide-react"
 import React from "react"
@@ -88,8 +90,9 @@ function NewEmployee() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] })
     },
-    onError: () => {
+    onError: error => {
       setIsLoading(false)
+      toast.error(getErrorMessage(error))
     },
   })
 
@@ -105,6 +108,7 @@ function NewEmployee() {
 
     await mutateAsync({ ...values, avatarUrl: image ?? "", active: true })
 
+    toast.success("Profissional cadastrado com sucesso!")
     navigate({ to: "/app/employees" })
     setIsLoading(false)
   }

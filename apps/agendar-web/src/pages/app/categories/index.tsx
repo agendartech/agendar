@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { toast } from "sonner"
 import { requirePartner } from "@/lib/route-guards"
 import { Edit, Trash2 } from "lucide-react"
 import React from "react"
@@ -116,6 +117,8 @@ function Categories() {
                       )
                     ) {
                       await deleteCategoryMutate(category.id)
+                      toast.success("Categoria excluída com sucesso!")
+                      refetch()
                     }
                   }}
                 >
