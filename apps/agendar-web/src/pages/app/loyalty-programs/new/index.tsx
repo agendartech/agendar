@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
+import { getErrorMessage } from "@/lib/error-message"
 import { requirePartner } from "@/lib/route-guards"
 import { ChevronLeft, Loader2, Plus, Trash } from "lucide-react"
 import React from "react"
@@ -62,8 +64,9 @@ function NewLoyaltyProgram() {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: createLoyaltyProgram,
-    onError: () => {
+    onError: error => {
       setIsLoading(false)
+      toast.error(getErrorMessage(error))
     },
   })
 
@@ -73,6 +76,7 @@ function NewLoyaltyProgram() {
     await mutateAsync(values)
 
     queryClient.invalidateQueries({ queryKey: ["loyalty-programs"] })
+    toast.success("Programa de fidelidade criado com sucesso!")
     navigate({ to: "/app/loyalty-programs" })
 
     setIsLoading(false)

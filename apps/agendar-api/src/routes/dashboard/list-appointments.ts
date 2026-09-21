@@ -53,6 +53,7 @@ export async function listAppointments(app: FastifyInstance) {
                   professional: z.object({
                     id: z.string(),
                     name: z.string(),
+                    color: z.string(),
                   }),
                   customer: z.object({
                     id: z.string(),
@@ -121,6 +122,7 @@ export async function listAppointments(app: FastifyInstance) {
               professional: {
                 id: employees.id,
                 name: employees.name,
+                color: employees.color,
               },
               customer: {
                 id: customers.id,

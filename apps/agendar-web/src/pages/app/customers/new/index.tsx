@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
 import { requirePartner } from "@/lib/route-guards"
 import { ChevronLeft, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -55,6 +56,7 @@ function NewCustomer() {
 
     queryClient.invalidateQueries({ queryKey: ["customers"] })
 
+    toast.success("Cliente cadastrado com sucesso!")
     navigate({ to: "/app/customers" })
   }
 

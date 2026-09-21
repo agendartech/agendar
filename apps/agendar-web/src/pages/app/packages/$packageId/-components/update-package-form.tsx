@@ -94,13 +94,15 @@ export function UpdatePackageForm({
       image = imageUrl
     }
 
-    await mutateAsync({ ...values, image })
+    try {
+      await mutateAsync({ ...values, image })
 
-    queryClient.invalidateQueries({ queryKey: ["package", pkg.id] })
+      queryClient.invalidateQueries({ queryKey: ["package", pkg.id] })
 
-    toast.success("Alterações salvas com sucesso!")
-
-    setIsLoading(false)
+      toast.success("Alterações salvas com sucesso!")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -298,6 +300,7 @@ export function UpdatePackageForm({
 
                 queryClient.invalidateQueries({ queryKey: ["packages"] })
 
+                toast.success("Pacote excluído com sucesso!")
                 navigate({ to: "/app/packages" })
               }
             }}

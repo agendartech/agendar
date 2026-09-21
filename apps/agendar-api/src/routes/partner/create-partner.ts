@@ -72,7 +72,7 @@ export async function createPartner(app: FastifyInstance) {
         name: name,
       })
 
-      const hashedPassword = await bcrypt.hash(password, 1)
+      const hashedPassword = await bcrypt.hash(password, 10)
 
       const [newPartner] = await db
         .insert(partners)

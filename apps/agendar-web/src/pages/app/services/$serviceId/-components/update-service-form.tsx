@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router"
 import { Loader2 } from "lucide-react"
 import React from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type z from "zod"
 import LogoUploader from "@/components/logo-uploader"
 import { Button } from "@/components/ui/button"
@@ -26,9 +27,9 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import { useUpdateService } from "@/hooks/use-services"
 import { getCategories } from "@/http/categories/get-categories"
 import { deleteService } from "@/http/services/delete-service"
-import { updateService } from "@/http/services/update-service"
 import { uploadImage } from "@/lib/upload-image"
 import { convertCentsToUnmasked, formatDurationToString } from "@/lib/utils"
 import { type Service, updateServiceSchema } from "@/lib/validations/service"
@@ -64,14 +65,7 @@ export function UpdateServiceForm({ service }: { service: Service }) {
     },
   })
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: updateService,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [service.id] })
-
-      setIsLoading(false)
-    },
-  })
+  const { mutate, isPending } = useUpdateService()
 
   const { mutateAsync: deleteServiceMutate, isPending: deleteIsPending } =
     useMutation({
@@ -90,12 +84,18 @@ export function UpdateServiceForm({ service }: { service: Service }) {
       image = service.image
     }
 
-    mutate({
-      ...values,
-      image: image ?? undefined,
-      id: service.id,
-      categoryIds: selectedCategories,
-    })
+    mutate(
+      {
+        ...values,
+        image: image ?? undefined,
+        id: service.id,
+        categoryIds: selectedCategories,
+      },
+      {
+        onSuccess: () => toast.success("Serviço atualizado com sucesso!"),
+        onSettled: () => setIsLoading(false),
+      }
+    )
   }
 
   return (
@@ -282,6 +282,7 @@ export function UpdateServiceForm({ service }: { service: Service }) {
 
                 queryClient.invalidateQueries({ queryKey: ["services"] })
 
+                toast.success("Serviço excluído com sucesso!")
                 navigate({ to: "/app/services" })
               }
             }}

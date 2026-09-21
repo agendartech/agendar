@@ -18,6 +18,7 @@ export type Appointment = {
   professional: {
     id: string
     name: string
+    color: string
   }
   customer: {
     id: string

@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { useFieldArray, useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -59,6 +60,8 @@ export function UpdatePackageItemForm({
     name: "items",
   })
 
+  const queryClient = useQueryClient()
+
   const { mutateAsync, isPending } = useMutation({
     mutationFn: updatePackageItems,
   })
@@ -72,6 +75,10 @@ export function UpdatePackageItemForm({
     }
 
     await mutateAsync({ ...payload, packageId })
+
+    queryClient.invalidateQueries({ queryKey: ["package", packageId] })
+
+    toast.success("Itens do pacote atualizados com sucesso!")
   }
 
   return (

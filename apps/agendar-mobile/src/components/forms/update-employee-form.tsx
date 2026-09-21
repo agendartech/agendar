@@ -17,6 +17,7 @@ import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { updateEmployeeSchema } from "@/lib/validations/employee"
 import { formatPhoneNumber } from "@/utils"
 import { AppButton } from "../button"
+import { EmployeeColorPicker } from "../employee-color-picker"
 import { IconButton } from "../icon-button"
 import { ImagePickerControl } from "../image-picker"
 import { Input } from "../input"
@@ -241,6 +242,20 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
                 {form.formState.errors.address.message}
               </Text>
             )}
+          </View>
+
+          <View className="gap-2">
+            <Text className="text-sm font-medium">Cor do profissional</Text>
+            <Controller
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <EmployeeColorPicker
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
           </View>
 
           <View className="gap-1">

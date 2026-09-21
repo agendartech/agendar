@@ -1,17 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
+import { getErrorMessage } from "@/lib/error-message"
 import { requirePartner } from "@/lib/route-guards"
 import { ArrowUp, ChevronLeft, Loader2 } from "lucide-react"
 import React from "react"
 import { useForm } from "react-hook-form"
 import type z from "zod"
+import { EmployeeColorPicker } from "@/components/employee-color-picker"
 import LogoUploader from "@/components/logo-uploader"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,6 +31,7 @@ import { getPlan } from "@/http/payments/get-plan"
 import { maskPhone } from "@/lib/masks"
 import { queryKeys } from "@/lib/query-keys"
 import { uploadImage } from "@/lib/upload-image"
+import { suggestEmployeeColor } from "@/lib/utils"
 import { createEmployeeSchema } from "@/lib/validations/employees"
 
 export const Route = createFileRoute("/app/employees/new/")({
@@ -71,16 +76,23 @@ function NewEmployee() {
       phone: "",
       active: true,
       avatarUrl: "",
+      color: suggestEmployeeColor(employees?.map(e => e.color) ?? []),
     },
   })
+
+  React.useEffect(() => {
+    if (!employees || form.formState.dirtyFields.color) return
+    form.setValue("color", suggestEmployeeColor(employees.map(e => e.color)))
+  }, [employees, form])
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: createEmployee,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["employees"] })
     },
-    onError: () => {
+    onError: error => {
       setIsLoading(false)
+      toast.error(getErrorMessage(error))
     },
   })
 
@@ -96,6 +108,7 @@ function NewEmployee() {
 
     await mutateAsync({ ...values, avatarUrl: image ?? "", active: true })
 
+    toast.success("Profissional cadastrado com sucesso!")
     navigate({ to: "/app/employees" })
     setIsLoading(false)
   }
@@ -254,6 +267,26 @@ function NewEmployee() {
             </FormControl>
             <FormMessage />
           </FormItem>
+
+          <FormField
+            control={form.control}
+            name="color"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cor do profissional*</FormLabel>
+                <FormControl>
+                  <EmployeeColorPicker
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Identifica o profissional na agenda e nos agendamentos.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}

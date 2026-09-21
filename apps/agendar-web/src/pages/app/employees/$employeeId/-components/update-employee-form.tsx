@@ -4,12 +4,15 @@ import { useNavigate } from "@tanstack/react-router"
 import { Loader2 } from "lucide-react"
 import React from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type z from "zod"
+import { EmployeeColorPicker } from "@/components/employee-color-picker"
 import LogoUploader from "@/components/logo-uploader"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,8 +21,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
+import { useUpdateEmployee } from "@/hooks/use-employees"
 import { deleteEmployee } from "@/http/employees/delete-employee"
-import { updateEmployee } from "@/http/employees/update-employee"
 import { maskPhone } from "@/lib/masks"
 import { uploadImage } from "@/lib/upload-image"
 import {
@@ -46,12 +49,11 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
       active: employee.active,
       address: employee.address,
       biography: employee.biography,
+      color: employee.color,
     },
   })
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: updateEmployee,
-  })
+  const { mutateAsync, isPending } = useUpdateEmployee()
 
   const { mutateAsync: deleteServiceMutate, isPending: deleteIsPending } =
     useMutation({
@@ -71,16 +73,18 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
     }
 
     const { password, ...rest } = values
-    await mutateAsync({
-      ...rest,
-      ...(password ? { password } : {}),
-      avatarUrl: image,
-      id: employee.id,
-    })
+    try {
+      await mutateAsync({
+        ...rest,
+        ...(password ? { password } : {}),
+        avatarUrl: image,
+        id: employee.id,
+      })
 
-    queryClient.invalidateQueries({ queryKey: [employee.id] })
-
-    setIsLoading(false)
+      toast.success("Profissional atualizado com sucesso!")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -175,6 +179,26 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
 
         <FormField
           control={form.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cor do profissional</FormLabel>
+              <FormControl>
+                <EmployeeColorPicker
+                  value={field.value ?? employee.color}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormDescription>
+                Identifica o profissional na agenda e nos agendamentos.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="biography"
           render={({ field }) => (
             <FormItem>
@@ -228,6 +252,8 @@ export function UpdateEmployeeForm({ employee }: { employee: Employee }) {
                 await deleteServiceMutate(employee.id)
 
                 queryClient.invalidateQueries({ queryKey: ["employees"] })
+
+                toast.success("Profissional excluído com sucesso!")
 
                 navigate({ to: "/app/employees" })
               }

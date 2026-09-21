@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { toast } from "sonner"
 import { requirePartner } from "@/lib/route-guards"
 import { ChevronLeft, Loader2 } from "lucide-react"
 import React from "react"
@@ -84,17 +85,21 @@ function NewPackage() {
       image = imageUrl
     }
 
-    await mutateAsync({
-      ...values,
-      image,
-      active: true,
-      quantity: Number(values.quantity),
-    })
+    try {
+      await mutateAsync({
+        ...values,
+        image,
+        active: true,
+        quantity: Number(values.quantity),
+      })
 
-    queryClient.invalidateQueries({ queryKey: ["packages"] })
+      queryClient.invalidateQueries({ queryKey: ["packages"] })
 
-    navigate({ to: "/app/packages" })
-    setIsLoading(false)
+      toast.success("Pacote criado com sucesso!")
+      navigate({ to: "/app/packages" })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

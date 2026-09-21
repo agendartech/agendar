@@ -7,6 +7,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Switch } from "@/components/ui/switch"
 import { useEstablishment } from "@/hooks/use-establishment"
 import { updateEstablishment } from "@/http/establishment/update-establishment"
+import { getErrorMessage } from "@/lib/error-message"
 
 export function SiteHeader() {
   const queryClient = useQueryClient()
@@ -26,10 +27,11 @@ export function SiteHeader() {
 
       return { previousData }
     },
-    onError: (_err, _variables, context) => {
+    onError: (error, _variables, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(["establishment"], context.previousData)
       }
+      toast.error(getErrorMessage(error))
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["establishment"] })

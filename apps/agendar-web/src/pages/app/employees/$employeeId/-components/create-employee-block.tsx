@@ -4,6 +4,7 @@ import { format, setHours, setMinutes } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { CalendarIcon, Clock2Icon, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -61,6 +62,7 @@ export function CreateEmployeeBlock({
       queryKey: ["employee", employeeId, "blocks"],
     })
 
+    toast.success("Bloqueio criado com sucesso!")
     onSuccess?.()
   }
 
