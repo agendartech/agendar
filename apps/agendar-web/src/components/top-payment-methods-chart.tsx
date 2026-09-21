@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Pie, PieChart } from "recharts"
 
+import { PieChartLegend } from "@/components/pie-chart-legend"
 import {
   Card,
   CardContent,
@@ -11,8 +12,6 @@ import {
 import {
   type ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
@@ -116,7 +115,7 @@ export function TopPaymentMethodsChart({
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[300px]"
+          className="mx-auto aspect-square w-full max-w-[280px]"
         >
           <PieChart>
             <ChartTooltip
@@ -124,12 +123,13 @@ export function TopPaymentMethodsChart({
               content={<ChartTooltipContent hideLabel nameKey="method" />}
             />
             <Pie data={chartData} dataKey="usage" />
-            <ChartLegend
-              content={<ChartLegendContent nameKey="method" />}
-              className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
-            />
           </PieChart>
         </ChartContainer>
+        <PieChartLegend
+          data={chartData}
+          config={chartConfig}
+          nameKey="method"
+        />
       </CardContent>
     </Card>
   )
