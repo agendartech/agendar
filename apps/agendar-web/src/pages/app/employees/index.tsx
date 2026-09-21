@@ -161,6 +161,11 @@ function Employees() {
                         <User className="h-6 w-6 text-primary" />
                       </div>
                     )}
+                    <span
+                      className="absolute -right-1 -bottom-1 size-4 rounded-full border-2 border-card"
+                      style={{ backgroundColor: employee.color }}
+                      aria-hidden="true"
+                    />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-foreground text-base leading-tight group-hover:text-primary transition-colors">

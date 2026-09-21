@@ -3,6 +3,10 @@ import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core"
 import { appointments } from "@/db/schema/appointments"
 import { employeeServices } from "@/db/schema/employee-services"
 import { establishments } from "@/db/schema/establishments"
+import {
+  DEFAULT_EMPLOYEE_COLOR,
+  type EmployeeColor,
+} from "@/utils/employee-colors"
 
 export const employees = pgTable("employees", {
   id: uuid("id").notNull().primaryKey().defaultRandom(),
@@ -16,6 +20,10 @@ export const employees = pgTable("employees", {
   address: text("address"),
   avatarUrl: text("avatarUrl"),
   biography: text("biography"),
+  color: text("color")
+    .$type<EmployeeColor>()
+    .notNull()
+    .default(DEFAULT_EMPLOYEE_COLOR),
   password: text("password"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 })

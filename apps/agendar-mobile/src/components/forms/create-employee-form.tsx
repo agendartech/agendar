@@ -11,11 +11,13 @@ import {
   View,
 } from "react-native"
 import type { z } from "zod"
-import { useCreateEmployee } from "@/hooks/data/employees"
+import { useCreateEmployee, useEmployees } from "@/hooks/data/employees"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { createEmployeeSchema } from "@/lib/validations/employee"
 import { formatPhoneNumber } from "@/utils"
+import { suggestEmployeeColor } from "@/utils/employee-colors"
 import { AppButton } from "../button"
+import { EmployeeColorPicker } from "../employee-color-picker"
 import { ImagePickerControl } from "../image-picker"
 import { Input } from "../input"
 
@@ -37,8 +39,16 @@ export function CreateEmployeeForm() {
       biography: "",
       active: true,
       avatarUrl: "",
+      color: suggestEmployeeColor([]),
     },
   })
+
+  const { data: employees } = useEmployees()
+
+  React.useEffect(() => {
+    if (!employees || form.formState.dirtyFields.color) return
+    form.setValue("color", suggestEmployeeColor(employees.map(e => e.color)))
+  }, [employees, form])
 
   async function onSubmit(inputs: Inputs) {
     setLoading(true)
@@ -235,6 +245,23 @@ export function CreateEmployeeForm() {
                 {form.formState.errors.biography.message}
               </Text>
             )}
+          </View>
+
+          <View className="gap-2">
+            <Text className="text-sm font-medium">Cor do profissional</Text>
+            <Controller
+              control={form.control}
+              name="color"
+              render={({ field }) => (
+                <EmployeeColorPicker
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            <Text className="text-xs text-gray-500">
+              Identifica o profissional na agenda e nos agendamentos.
+            </Text>
           </View>
 
           <View className="gap-1">

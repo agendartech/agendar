@@ -73,7 +73,7 @@ export function AppointmentCard({
       </View>
 
       <View className="flex-row items-center mb-2">
-        <User size={16} color="#6B7280" />
+        <User size={16} color={appointment.professional.color} />
         <Text className="ml-2 text-gray-700">
           {appointment.professional.name}
         </Text>

@@ -60,6 +60,7 @@ export async function getEmployee(app: FastifyInstance) {
             avatarUrl: true,
             phone: true,
             biography: true,
+            color: true,
           },
           with: {
             employeeServices: {

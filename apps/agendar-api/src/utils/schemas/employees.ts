@@ -1,4 +1,5 @@
 import z from "zod"
+import { EMPLOYEE_COLORS } from "@/utils/employee-colors"
 
 export const employeeSchema = z.object({
   id: z.string().uuid(),
@@ -9,4 +10,5 @@ export const employeeSchema = z.object({
   avatarUrl: z.string().nullable(),
   phone: z.string().nullable(),
   biography: z.string().nullable(),
+  color: z.enum(EMPLOYEE_COLORS),
 })
