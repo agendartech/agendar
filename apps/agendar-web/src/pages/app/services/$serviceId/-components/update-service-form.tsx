@@ -4,6 +4,7 @@ import { useNavigate } from "@tanstack/react-router"
 import { Loader2 } from "lucide-react"
 import React from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 import type z from "zod"
 import LogoUploader from "@/components/logo-uploader"
 import { Button } from "@/components/ui/button"
@@ -90,7 +91,10 @@ export function UpdateServiceForm({ service }: { service: Service }) {
         id: service.id,
         categoryIds: selectedCategories,
       },
-      { onSuccess: () => setIsLoading(false) }
+      {
+        onSuccess: () => toast.success("Serviço atualizado com sucesso!"),
+        onSettled: () => setIsLoading(false),
+      }
     )
   }
 
@@ -278,6 +282,7 @@ export function UpdateServiceForm({ service }: { service: Service }) {
 
                 queryClient.invalidateQueries({ queryKey: ["services"] })
 
+                toast.success("Serviço excluído com sucesso!")
                 navigate({ to: "/app/services" })
               }
             }}

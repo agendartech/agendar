@@ -318,6 +318,7 @@ export function UpdateLoyaltyProgram({
                   queryKey: ["loyalty-programs"],
                 })
 
+                toast.success("Programa de fidelidade excluído com sucesso!")
                 navigate({ to: "/app/loyalty-programs" })
               }
             }}

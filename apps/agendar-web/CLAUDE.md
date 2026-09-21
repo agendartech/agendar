@@ -51,6 +51,13 @@ Axios configurado em `src/http/` com interceptors para:
 - Token JWT automático
 - Header `x-establishment-id`
 
+### Feedback ao usuário (toast):
+- `Toaster` (sonner) montado em `app.tsx`
+- Erro de mutation: o `QueryClient` mostra toast global via `getErrorMessage()` (`lib/error-message.ts`)
+- **Armadilha**: um `onError` definido no próprio `useMutation` **substitui** o global. Se definir um, chame `toast.error(getErrorMessage(error))` dentro dele
+- Ação concluída (criar, editar, excluir): `toast.success("... com sucesso!")` logo após o `await mutateAsync(...)`
+- Loading manual (`setIsLoading`) deve ser resetado em `finally`, senão o botão trava após erro
+
 ## Autenticação e Permissionamento
 
 - Token JWT + role armazenados em cookies (`js-cookie`)

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Plus, Trash } from "lucide-react"
 import { useQueryState } from "nuqs"
 import React from "react"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -147,6 +148,7 @@ export function EmployeeBlocks({ employeeId }: { employeeId: string }) {
                       queryClient.invalidateQueries({
                         queryKey: ["employee", employeeId, "blocks"],
                       })
+                      toast.success("Bloqueio excluído com sucesso!")
                     }
                   }}
                   aria-label={`Excluir bloco para ${block.reason}`}
@@ -192,6 +194,7 @@ export function EmployeeBlocks({ employeeId }: { employeeId: string }) {
                       queryClient.invalidateQueries({
                         queryKey: ["employee", employeeId, "recurring-blocks"],
                       })
+                      toast.success("Bloqueio recorrente excluído com sucesso!")
                     }
                   }}
                   aria-label={`Excluir bloco recorrente para ${block.reason} em ${weekdays[block.weekday]}`}

@@ -241,6 +241,7 @@ export function UpdateCustomerForm({ customer }: { customer: Customer }) {
 
                 queryClient.invalidateQueries({ queryKey: ["customers"] })
 
+                toast.success("Cliente excluído com sucesso!")
                 navigate({ to: "/app/customers" })
               }
             }}
