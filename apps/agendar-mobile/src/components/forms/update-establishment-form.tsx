@@ -5,7 +5,6 @@ import { Copy } from "lucide-react-native"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import {
-  Alert,
   KeyboardAvoidingView,
   Pressable,
   ScrollView,
@@ -16,6 +15,7 @@ import {
 import { AppButton } from "@/components/button"
 import { ImagePickerControl } from "@/components/image-picker"
 import { Input } from "@/components/input"
+import { toast } from "@/components/toast"
 import { useUpdateEstablishment } from "@/hooks/data/establishment/use-update-establishment"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import {
@@ -51,10 +51,9 @@ export function UpdateEstablishmentForm({
     if (slug) {
       const link = `https://agendar-web-omega.vercel.app/${slug}`
       await Clipboard.setStringAsync(link)
-      Alert.alert(
-        "Link copiado!",
-        "O link da loja foi copiado para a área de transferência."
-      )
+      toast.success("Link copiado!", {
+        description: "O link da loja foi copiado para a área de transferência.",
+      })
     }
   }
 
@@ -90,7 +89,7 @@ export function UpdateEstablishmentForm({
         StorageEntity.Establishment
       )
       if (!uploaded) {
-        Alert.alert("Erro ao salvar imagem.")
+        toast.error("Erro ao salvar imagem.")
         setLoading(false)
         return
       }
@@ -103,7 +102,7 @@ export function UpdateEstablishmentForm({
         StorageEntity.Establishment
       )
       if (!uploaded) {
-        Alert.alert("Erro ao salvar imagem.")
+        toast.error("Erro ao salvar imagem.")
         setLoading(false)
         return
       }
@@ -112,9 +111,10 @@ export function UpdateEstablishmentForm({
 
     try {
       await mutateAsync({ ...inputs, logoUrl, bannerUrl })
+      toast.success("Estabelecimento atualizado com sucesso!")
       router.back()
     } catch (_) {
-      Alert.alert("Erro ao atualizar estabelecimento.")
+      toast.error("Erro ao atualizar estabelecimento.")
     } finally {
       setLoading(false)
     }

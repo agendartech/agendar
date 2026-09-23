@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Alert, ScrollView, View } from "react-native"
+import { ScrollView, View } from "react-native"
+import { toast } from "@/components/toast"
 import { useUpdateAvailability } from "@/hooks/data/availabilities"
 import type { Availability } from "@/lib/validations/availability"
 import { convertLocalTimeToUTC, convertUTCToLocalTime } from "@/utils"
@@ -102,9 +103,9 @@ export function UpdateAvailabilityForm({
 
     try {
       await mutateAsync({ availability: activeAvailabilities })
-      Alert.alert("Sucesso", "Horários salvos com sucesso!")
+      toast.success("Horários salvos com sucesso!")
     } catch {
-      Alert.alert("Erro", "Erro ao salvar horários. Tente novamente.")
+      toast.error("Erro ao salvar horários. Tente novamente.")
     }
   }
 

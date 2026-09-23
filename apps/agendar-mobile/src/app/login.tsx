@@ -4,7 +4,6 @@ import { StatusBar } from "expo-status-bar"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import {
-  Alert,
   Image,
   KeyboardAvoidingView,
   Linking,
@@ -16,6 +15,7 @@ import {
 import type { z } from "zod"
 import { AppButton } from "@/components/button"
 import { Input } from "@/components/input"
+import { toast } from "@/components/toast"
 import { login } from "@/http/auth/login"
 import { loginSchema } from "@/lib/validations/auth"
 import { useSession } from "@/providers/auth-context"
@@ -43,7 +43,7 @@ export default function Login() {
     }
 
     if (error) {
-      Alert.alert(error)
+      toast.error(error)
     }
 
     setLoading(false)

@@ -1,6 +1,6 @@
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { Briefcase, Clock, Package, User, Users } from "lucide-react-native"
+import { Briefcase, Calendar, Clock, Package } from "lucide-react-native"
 import { Text, TouchableOpacity, View } from "react-native"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { Badge } from "./badge"
@@ -22,86 +22,104 @@ export function AppointmentCard({
   onCheckIn,
   onCancel,
 }: AppointmentCardProps) {
-  const formattedDate = format(appointment.startTime, "dd 'de' MMMM", {
-    locale: ptBR,
-  })
-  const formattedTime = format(appointment.startTime, "HH:mm", {
-    locale: ptBR,
-  })
+  const date = format(appointment.startTime, "dd/MM/yyyy", { locale: ptBR })
+  const startTime = format(appointment.startTime, "HH:mm", { locale: ptBR })
+  const endTime = format(appointment.endTime, "HH:mm", { locale: ptBR })
+  const employeeColor = appointment.professional.color
 
-  const showCheckInButton = appointment.status === "scheduled"
+  const showActions = appointment.status === "scheduled"
 
   return (
-    <View className="mb-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-      <View className="mb-3 flex-row flex-wrap gap-2">
-        <Badge variant={appointment.status as Appointment["status"]}>
-          {statusLabels[appointment.status]}
-        </Badge>
-        {appointment.package && (
-          <View
-            className={`flex-row items-center px-3 py-1 rounded-full ${
-              appointment.package.paid ? "bg-green-100" : "bg-amber-100"
-            }`}
+    <View className="mb-2 px-3 py-2.5 bg-white border border-gray-200 rounded-lg">
+      <View className="flex-row items-center justify-between gap-2">
+        <View className="flex-row items-center flex-1 gap-1.5">
+          <Text
+            className="font-semibold text-gray-900 text-sm shrink"
+            numberOfLines={1}
           >
-            <Package
-              size={12}
-              color={appointment.package.paid ? "#15803d" : "#b45309"}
-            />
-            <Text
-              className={`ml-1 text-xs font-semibold ${
-                appointment.package.paid ? "text-green-800" : "text-amber-800"
+            {appointment.customer.name}
+          </Text>
+          {appointment.package && (
+            <View
+              className={`flex-row items-center px-1.5 py-0.5 rounded-full ${
+                appointment.package.paid ? "bg-green-100" : "bg-amber-100"
               }`}
             >
-              {appointment.package.name} (
-              {appointment.package.remainingSessions}/
-              {appointment.package.totalSessions})
+              <Package
+                size={10}
+                color={appointment.package.paid ? "#15803d" : "#b45309"}
+              />
+              <Text
+                className={`ml-1 text-[10px] font-semibold ${
+                  appointment.package.paid ? "text-green-800" : "text-amber-800"
+                }`}
+              >
+                {appointment.package.remainingSessions}/
+                {appointment.package.totalSessions}
+              </Text>
+            </View>
+          )}
+        </View>
+        <Badge variant={appointment.status}>
+          {statusLabels[appointment.status]}
+        </Badge>
+      </View>
+
+      <View className="mt-1.5 flex-row items-center gap-2">
+        <View
+          className="w-5 h-5 rounded-full items-center justify-center"
+          style={{ backgroundColor: `${employeeColor}26` }}
+        >
+          <Briefcase size={11} color={employeeColor} />
+        </View>
+        <Text
+          className="text-xs font-medium shrink"
+          style={{ color: employeeColor }}
+          numberOfLines={1}
+        >
+          {appointment.professional.name}
+        </Text>
+        <Text className="text-xs text-gray-400">•</Text>
+        <Text className="text-xs text-gray-700 flex-1" numberOfLines={1}>
+          {appointment.service.name}
+        </Text>
+      </View>
+
+      <View className="mt-1.5 flex-row items-center justify-between gap-2">
+        <View className="flex-row items-center gap-3">
+          <View className="flex-row items-center gap-1">
+            <Calendar size={12} color="#6B7280" />
+            <Text className="text-xs text-gray-700">{date}</Text>
+          </View>
+          <View className="flex-row items-center gap-1">
+            <Clock size={12} color="#6B7280" />
+            <Text className="text-xs text-gray-500">
+              {startTime} - {endTime}
             </Text>
+          </View>
+        </View>
+
+        {showActions && (
+          <View className="flex-row gap-1.5">
+            <TouchableOpacity
+              onPress={() => onCheckIn?.(appointment.id)}
+              className="bg-blue-600 px-2.5 py-1.5 rounded-md"
+            >
+              <Text className="text-white text-xs font-semibold">
+                Check-out
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => onCancel?.(appointment.id)}
+              className="border border-red-200 bg-red-50 px-2.5 py-1.5 rounded-md"
+            >
+              <Text className="text-red-600 text-xs font-semibold">
+                Cancelar
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
       </View>
-
-      <View className="flex-row items-center mb-2">
-        <Clock size={16} color="#6B7280" />
-        <Text className="ml-2 text-gray-700 font-medium">
-          {formattedDate} às {formattedTime}
-        </Text>
-      </View>
-
-      <View className="flex-row items-center mb-2">
-        <Briefcase size={16} color="#6B7280" />
-        <Text className="ml-2 text-gray-700">{appointment.service.name}</Text>
-      </View>
-
-      <View className="flex-row items-center mb-2">
-        <User size={16} color={appointment.professional.color} />
-        <Text className="ml-2 text-gray-700">
-          {appointment.professional.name}
-        </Text>
-      </View>
-
-      <View className="flex-row items-center mb-3">
-        <Users size={16} color="#6B7280" />
-        <Text className="ml-2 text-gray-700 font-semibold">
-          {appointment.customer.name}
-        </Text>
-      </View>
-
-      {showCheckInButton && (
-        <View className="flex-row gap-2">
-          <TouchableOpacity
-            onPress={() => onCheckIn?.(appointment.id)}
-            className="flex-1 bg-blue-600 py-3 rounded-lg items-center"
-          >
-            <Text className="text-white font-semibold">Fazer Check-out</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => onCancel?.(appointment.id)}
-            className="flex-1 bg-red-600 py-3 rounded-lg items-center"
-          >
-            <Text className="text-white font-semibold">Cancelar</Text>
-          </TouchableOpacity>
-        </View>
-      )}
     </View>
   )
 }
