@@ -8,8 +8,8 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api-agendar-3nk1.onrender.com",
-        "EXPO_PUBLIC_WEB_URL": "https://agendar-coral.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://api.dev.agendar.tec.br",
+        "EXPO_PUBLIC_WEB_URL": "https://dev.agendar.tec.br"
       }
     },
     "preview": {
@@ -19,15 +19,16 @@
         "autoIncrement": true
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api-agendar-3nk1.onrender.com",
-        "EXPO_PUBLIC_WEB_URL": "https://agendar-coral.vercel.app"
+        "EXPO_PUBLIC_API_URL": "https://api.dev.agendar.tec.br",
+        "EXPO_PUBLIC_WEB_URL": "https://dev.agendar.tec.br"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://api-agendar-3nk1.onrender.com",
-        "EXPO_PUBLIC_WEB_URL": "https://agendar-coral.vercel.app"
+        "EXPO_PUBLIC_APP_VARIANT": "production",
+        "EXPO_PUBLIC_API_URL": "https://api.agendar.tec.br",
+        "EXPO_PUBLIC_WEB_URL": "https://agendar.tec.br"
       }
     }
   },

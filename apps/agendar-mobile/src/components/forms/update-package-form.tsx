@@ -6,6 +6,7 @@ import React from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import { Alert, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useDeletePackage } from "@/hooks/data/packages/use-delete-package"
 import { useUpdatePackage } from "@/hooks/data/packages/use-update-package"
 import { useUpdatePackageItem } from "@/hooks/data/packages/use-update-package-item"
@@ -85,7 +86,7 @@ export function EditPackageForm({ data, services }: Props) {
         StorageEntity.Package
       )
       if (!uploaded) {
-        Alert.alert("Erro ao salvar imagem.")
+        toast.error("Erro ao salvar imagem.")
         setLoading(false)
         return
       }
@@ -102,10 +103,10 @@ export function EditPackageForm({ data, services }: Props) {
       const itemsValues = itemsForm.getValues()
       await updateItemsAsync({ items: itemsValues.items, packageId: data.id })
 
-      Alert.alert("Sucesso", "Pacote atualizado com sucesso!")
+      toast.success("Pacote atualizado com sucesso!")
       _router.back()
     } catch (_error) {
-      Alert.alert("Erro", "Não foi possível atualizar o pacote.")
+      toast.error("Não foi possível atualizar o pacote.")
     } finally {
       setLoading(false)
     }
@@ -126,9 +127,10 @@ export function EditPackageForm({ data, services }: Props) {
           onPress: async () => {
             try {
               await deleteAsync(data.id)
+              toast.success("Pacote excluído com sucesso!")
               _router.back()
             } catch {
-              Alert.alert("Erro ao excluir pacote.")
+              toast.error("Erro ao excluir pacote.")
             }
           },
         },

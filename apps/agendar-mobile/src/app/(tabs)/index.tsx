@@ -17,6 +17,7 @@ import { CancelAppointmentDialog } from "@/components/cancel-appointment-dialog"
 import { CheckinDialog } from "@/components/checkin-dialog"
 import { DashboardFilters } from "@/components/dashboard/dashboard-filters"
 import { Empty } from "@/components/empty"
+import { toast } from "@/components/toast"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { useAppointments } from "@/hooks/data/appointment/use-appointments"
 import { useCancelAppointment } from "@/hooks/data/appointment/use-cancel-appointment"
@@ -70,8 +71,12 @@ export default function Appointments() {
       { appointmentId, reason },
       {
         onSuccess: () => {
+          toast.success("Agendamento cancelado com sucesso!")
           setCancelDialogVisible(false)
           setSelectedAppointment(null)
+        },
+        onError: error => {
+          toast.error(error || "Erro ao cancelar agendamento.")
         },
       }
     )

@@ -13,6 +13,7 @@ import { AppButton } from "@/components/button"
 import { Empty } from "@/components/empty"
 import { CreateEmployeeBlockForm } from "@/components/forms/create-employee-block-form"
 import { CreateEmployeeRecurringBlockForm } from "@/components/forms/create-employee-recurring-block-form"
+import { Toaster } from "@/components/toast"
 import { useDeleteEmployeeBlock } from "@/hooks/data/employees/use-delete-employee-block"
 import { useDeleteEmployeeRecurringBlock } from "@/hooks/data/employees/use-delete-employee-recurring-block"
 import { useEmployeeBlocks } from "@/hooks/data/employees/use-employee-blocks"
@@ -198,6 +199,7 @@ export function EmployeeBlocksTab({ employeeId }: EmployeeBlocksTabProps) {
             onSuccess={handleCreateBlockSuccess}
           />
         </View>
+        <Toaster />
       </Modal>
 
       <Modal
@@ -224,6 +226,7 @@ export function EmployeeBlocksTab({ employeeId }: EmployeeBlocksTabProps) {
             onSuccess={handleCreateRecurringBlockSuccess}
           />
         </View>
+        <Toaster />
       </Modal>
     </View>
   )
