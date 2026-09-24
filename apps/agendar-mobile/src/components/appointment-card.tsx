@@ -50,7 +50,7 @@ export function AppointmentCard({
                 color={appointment.package.paid ? "#15803d" : "#b45309"}
               />
               <Text
-                className={`ml-1 text-[10px] font-semibold ${
+                className={`ml-1 text-[12px] font-semibold ${
                   appointment.package.paid ? "text-green-800" : "text-amber-800"
                 }`}
               >
