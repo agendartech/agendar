@@ -2,14 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { router } from "expo-router"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
-import {
-  Alert,
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native"
+import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useCreateCustomer } from "@/hooks/data/customers/use-create-customer"
 import { createCustomerSchema } from "@/lib/validations/customer"
 import {
@@ -59,9 +54,10 @@ export function CreateCustomerForm() {
     setLoading(true)
     try {
       await mutateAsync(inputs)
+      toast.success("Cliente criado com sucesso!")
       router.back()
     } catch {
-      Alert.alert("Erro ao criar cliente.")
+      toast.error("Erro ao criar cliente.")
     } finally {
       setLoading(false)
     }

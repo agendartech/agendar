@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useDeleteCustomer } from "@/hooks/data/customers/use-delete-customer"
 import { useUpdateCustomer } from "@/hooks/data/customers/use-update-customer"
 import { updateCustomerSchema } from "@/lib/validations/customer"
@@ -71,9 +72,10 @@ export function EditCustomerForm({ customer }: Props) {
     setLoading(true)
     try {
       await mutateAsync(inputs)
+      toast.success("Cliente atualizado com sucesso!")
       router.back()
     } catch {
-      Alert.alert("Erro ao atualizar cliente.")
+      toast.error("Erro ao atualizar cliente.")
     } finally {
       setLoading(false)
     }
@@ -94,9 +96,10 @@ export function EditCustomerForm({ customer }: Props) {
           onPress: async () => {
             try {
               await deleteAsync(customer.id)
+              toast.success("Cliente excluído com sucesso!")
               router.back()
             } catch {
-              Alert.alert("Erro ao excluir cliente.")
+              toast.error("Erro ao excluir cliente.")
             }
           },
         },

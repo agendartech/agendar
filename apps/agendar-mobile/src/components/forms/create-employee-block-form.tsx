@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
   View,
 } from "react-native"
+import { toast } from "@/components/toast"
 import { useCreateEmployeeBlock } from "@/hooks/data/employees/use-create-employee-block"
 import {
   type CreateEmployeeBlockRequest,
@@ -49,11 +49,11 @@ export function CreateEmployeeBlockForm({
         ...data,
       })
 
-      Alert.alert("Sucesso", "Bloqueio criado com sucesso!")
+      toast.success("Bloqueio criado com sucesso!")
       reset()
       onSuccess?.()
     } catch (error) {
-      Alert.alert("Erro", error as string)
+      toast.error(error as string)
     }
   }
 
