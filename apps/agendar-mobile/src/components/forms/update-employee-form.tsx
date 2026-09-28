@@ -22,6 +22,7 @@ import { EmployeeColorPicker } from "../employee-color-picker"
 import { IconButton } from "../icon-button"
 import { ImagePickerControl } from "../image-picker"
 import { Input } from "../input"
+import { PasswordInput } from "../password-input"
 
 type Inputs = z.infer<typeof updateEmployeeSchema>
 
@@ -177,9 +178,8 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <Input
+                <PasswordInput
                   placeholder="Deixe vazio para manter a atual"
-                  secureTextEntry
                   {...field}
                   onChangeText={field.onChange}
                   value={field.value ?? ""}
