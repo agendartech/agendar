@@ -4,7 +4,6 @@ import { Plus, Trash2 } from "lucide-react-native"
 import React from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -16,6 +15,7 @@ import type { z } from "zod"
 import { AppButton } from "@/components/button"
 import { Input } from "@/components/input"
 import { Select } from "@/components/select"
+import { toast } from "@/components/toast"
 import { useCreateLoyaltyProgram } from "@/hooks/data/loyalty/use-create-loyalty-program"
 import { useServices } from "@/hooks/data/services/use-services"
 import { createLoyaltyProgramSchema } from "@/lib/validations/loyalty-program"
@@ -46,9 +46,10 @@ export default function NewLoyaltyProgram() {
     setLoading(true)
     try {
       await mutateAsync(inputs)
+      toast.success("Programa de fidelidade criado com sucesso!")
       router.back()
     } catch {
-      Alert.alert("Erro ao criar programa de fidelidade.")
+      toast.error("Erro ao criar programa de fidelidade.")
     } finally {
       setLoading(false)
     }

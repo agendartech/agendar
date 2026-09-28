@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
   View,
 } from "react-native"
+import { toast } from "@/components/toast"
 import { useCreateEmployeeRecurringBlock } from "@/hooks/data/employees/use-create-employee-recurring-block"
 import {
   type CreateEmployeeRecurringBlockRequest,
@@ -52,11 +52,11 @@ export function CreateEmployeeRecurringBlockForm({
         ...data,
       })
 
-      Alert.alert("Sucesso", "Bloqueio recorrente criado com sucesso!")
+      toast.success("Bloqueio recorrente criado com sucesso!")
       reset()
       onSuccess?.()
     } catch (error) {
-      Alert.alert("Erro", error as string)
+      toast.error(error as string)
     }
   }
 

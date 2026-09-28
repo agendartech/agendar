@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useUpdateEmployeeServices } from "@/hooks/data/employees/use-update-employee-services"
 import { useServices } from "@/hooks/data/services/use-services"
 import type { Employee } from "@/lib/validations/employee"
@@ -56,13 +57,13 @@ export function UpdateEmployeeServiceForm({
   function handleAddService() {
     const selected = services.find(s => s.id === newServiceId)
     if (!selected) {
-      Alert.alert("Erro", "Selecione um serviço válido para adicionar.")
+      toast.error("Selecione um serviço válido para adicionar.")
       return
     }
 
     const isDuplicate = fields.some(field => field.serviceId === selected.id)
     if (isDuplicate) {
-      Alert.alert("Atenção", "Este serviço já foi adicionado à lista.")
+      toast.error("Este serviço já foi adicionado à lista.")
       return
     }
 
@@ -83,8 +84,7 @@ export function UpdateEmployeeServiceForm({
       const hasDuplicates = serviceIds.length !== new Set(serviceIds).size
 
       if (hasDuplicates) {
-        Alert.alert(
-          "Atenção",
+        toast.error(
           "Existem serviços duplicados na lista. Remova os duplicados antes de salvar."
         )
         return
@@ -105,10 +105,10 @@ export function UpdateEmployeeServiceForm({
             onPress: async () => {
               try {
                 await mutateAsync(inputs)
-                Alert.alert("Sucesso", "Serviços atualizados com sucesso!")
+                toast.success("Serviços atualizados com sucesso!")
               } catch (e) {
                 console.log(e)
-                Alert.alert("Erro", "Erro ao atualizar serviços.")
+                toast.error("Erro ao atualizar serviços.")
               }
             },
           },
@@ -119,10 +119,10 @@ export function UpdateEmployeeServiceForm({
 
     try {
       await mutateAsync(inputs)
-      Alert.alert("Sucesso", "Serviços atualizados com sucesso!")
+      toast.success("Serviços atualizados com sucesso!")
     } catch (e) {
       console.log(e)
-      Alert.alert("Erro", "Erro ao atualizar serviços.")
+      toast.error("Erro ao atualizar serviços.")
     }
   }
 

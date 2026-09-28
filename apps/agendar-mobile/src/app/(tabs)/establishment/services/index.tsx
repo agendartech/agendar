@@ -57,7 +57,7 @@ export default function Services() {
                       />
                     ) : (
                       <View className="size-20 bg-gray-200 rounded-md items-center justify-center">
-                        <Text className="text-[10px] text-gray-500 text-center">
+                        <Text className="text-[12px] text-gray-500 text-center">
                           Sem imagem
                         </Text>
                       </View>

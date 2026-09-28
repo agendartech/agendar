@@ -1,14 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { router } from "expo-router"
 import { Controller, useForm } from "react-hook-form"
-import {
-  Alert,
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native"
+import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useCreateCategory } from "@/hooks/data/category/use-create-category"
 import { createCategorySchema } from "@/lib/validations/category" // crie esse schema simples: { name: string.min(1) }
 import { AppButton } from "../button"
@@ -28,9 +23,10 @@ export function CreateCategoryForm() {
   async function onSubmit(inputs: Inputs) {
     try {
       await mutateAsync(inputs)
+      toast.success("Categoria criada com sucesso!")
       router.back()
     } catch {
-      Alert.alert("Erro ao criar categoria.")
+      toast.error("Erro ao criar categoria.")
     }
   }
 

@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useDeleteCategory } from "@/hooks/data/category/use-delete-category"
 import { useUpdateCategory } from "@/hooks/data/category/use-update-category"
 import { categorySchema } from "@/lib/validations/category"
@@ -39,9 +40,10 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
   async function onSubmit(inputs: Inputs) {
     try {
       await mutateAsync(inputs)
+      toast.success("Categoria atualizada com sucesso!")
       router.back()
     } catch {
-      Alert.alert("Erro ao atualizar categoria.")
+      toast.error("Erro ao atualizar categoria.")
     }
   }
 
@@ -60,9 +62,10 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
           onPress: async () => {
             try {
               await deleteAsync(category.id)
+              toast.success("Categoria excluída com sucesso!")
               router.back()
             } catch {
-              Alert.alert("Erro ao excluir categoria.")
+              toast.error("Erro ao excluir categoria.")
             }
           },
         },

@@ -18,6 +18,7 @@ import type { z } from "zod"
 import { AppButton } from "@/components/button"
 import { Input } from "@/components/input"
 import { Select } from "@/components/select"
+import { toast } from "@/components/toast"
 import { useDeleteLoyaltyProgram } from "@/hooks/data/loyalty/use-delete-loyalty-program"
 import { useLoyaltyProgram } from "@/hooks/data/loyalty/use-loyalty-program"
 import { useUpdateLoyaltyProgram } from "@/hooks/data/loyalty/use-update-loyalty-program"
@@ -106,15 +107,14 @@ function UpdateLoyaltyProgramForm({
         queryKey: ["loyalty-program", program.id],
       })
       queryClient.invalidateQueries({ queryKey: ["loyalty-programs"] })
-      Alert.alert(
-        "Sucesso",
+      toast.success(
         active
           ? "Programa de fidelidade ativado com sucesso!"
           : "Programa de fidelidade desativado com sucesso!"
       )
     },
     onError: () => {
-      Alert.alert("Erro", "Erro ao alterar status do programa")
+      toast.error("Erro ao alterar status do programa")
     },
   })
 
@@ -122,9 +122,9 @@ function UpdateLoyaltyProgramForm({
     setLoading(true)
     try {
       await mutateAsync(inputs)
-      Alert.alert("Sucesso", "Programa de fidelidade atualizado com sucesso!")
+      toast.success("Programa de fidelidade atualizado com sucesso!")
     } catch {
-      Alert.alert("Erro", "Erro ao atualizar programa de fidelidade")
+      toast.error("Erro ao atualizar programa de fidelidade")
     } finally {
       setLoading(false)
     }
@@ -145,9 +145,10 @@ function UpdateLoyaltyProgramForm({
           onPress: async () => {
             try {
               await deleteMutate(program.id)
+              toast.success("Programa de fidelidade excluído com sucesso!")
               router.back()
             } catch {
-              Alert.alert("Erro", "Erro ao excluir programa de fidelidade")
+              toast.error("Erro ao excluir programa de fidelidade")
             }
           },
         },

@@ -3,7 +3,6 @@ import { router } from "expo-router"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import {
-  Alert,
   KeyboardAvoidingView,
   ScrollView,
   Switch,
@@ -11,6 +10,7 @@ import {
   View,
 } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useCreateEmployee, useEmployees } from "@/hooks/data/employees"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { createEmployeeSchema } from "@/lib/validations/employee"
@@ -20,6 +20,7 @@ import { AppButton } from "../button"
 import { EmployeeColorPicker } from "../employee-color-picker"
 import { ImagePickerControl } from "../image-picker"
 import { Input } from "../input"
+import { PasswordInput } from "../password-input"
 
 type Inputs = z.infer<typeof createEmployeeSchema>
 
@@ -61,7 +62,7 @@ export function CreateEmployeeForm() {
       )
 
       if (!uploaded) {
-        Alert.alert("Erro ao salvar imagem.")
+        toast.error("Erro ao salvar imagem.")
         return
       }
 
@@ -74,9 +75,11 @@ export function CreateEmployeeForm() {
         avatarUrl,
       })
 
+      toast.success("Profissional cadastrado com sucesso!")
+
       router.back()
     } catch (_e) {
-      Alert.alert("Erro ao cadastrar profissional.")
+      toast.error("Erro ao cadastrar profissional.")
     } finally {
       setLoading(false)
     }
@@ -146,16 +149,13 @@ export function CreateEmployeeForm() {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">
-              Senha de acesso
-            </Text>
+            <Text className="text-sm font-medium">Senha de acesso</Text>
             <Controller
               control={form.control}
               name="password"
               render={({ field }) => (
-                <Input
+                <PasswordInput
                   placeholder="Senha do profissional"
-                  secureTextEntry
                   {...field}
                   onBlur={field.onBlur}
                   onChangeText={field.onChange}

@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useUpdateEmployee } from "@/hooks/data/employees"
 import { useDeleteEmployee } from "@/hooks/data/employees/use-delete-employee"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
@@ -21,6 +22,7 @@ import { EmployeeColorPicker } from "../employee-color-picker"
 import { IconButton } from "../icon-button"
 import { ImagePickerControl } from "../image-picker"
 import { Input } from "../input"
+import { PasswordInput } from "../password-input"
 
 type Inputs = z.infer<typeof updateEmployeeSchema>
 
@@ -55,7 +57,7 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
       )
 
       if (!uploaded) {
-        Alert.alert("Erro ao salvar imagem.")
+        toast.error("Erro ao salvar imagem.")
         setLoading(false)
         return
       }
@@ -73,9 +75,11 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
 
       await mutateAsync(payload)
 
+      toast.success("Profissional atualizado com sucesso!")
+
       router.back()
     } catch (_) {
-      Alert.alert("Erro ao atualizar serviço.")
+      toast.error("Erro ao atualizar profissional.")
     } finally {
       setLoading(false)
     }
@@ -102,9 +106,10 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
           onPress: async () => {
             try {
               await deleteAsync(employee.id)
+              toast.success("Profissional excluído com sucesso!")
               router.back()
             } catch {
-              Alert.alert("Erro ao excluir profissional.")
+              toast.error("Erro ao excluir profissional.")
             }
           },
         },
@@ -168,16 +173,13 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
           </View>
 
           <View className="gap-1">
-            <Text className="text-sm font-medium">
-              Nova Senha
-            </Text>
+            <Text className="text-sm font-medium">Nova Senha</Text>
             <Controller
               control={form.control}
               name="password"
               render={({ field }) => (
-                <Input
+                <PasswordInput
                   placeholder="Deixe vazio para manter a atual"
-                  secureTextEntry
                   {...field}
                   onChangeText={field.onChange}
                   value={field.value ?? ""}
@@ -256,6 +258,9 @@ export function EditEmployeeForm({ employee }: EditEmployeeFormProps) {
                 />
               )}
             />
+            <Text className="text-xs text-gray-500">
+              Identifica o profissional na agenda e nos agendamentos.
+            </Text>
           </View>
 
           <View className="gap-1">

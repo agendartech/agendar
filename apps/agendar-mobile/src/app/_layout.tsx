@@ -1,5 +1,6 @@
 import { Stack } from "expo-router"
 import { SplashScreenController } from "@/components/splash"
+import { Toaster } from "@/components/toast"
 import { SessionProvider, useSession } from "@/providers/auth-context"
 import "@/styles/global.css"
 import messaging from "@react-native-firebase/messaging"
@@ -21,6 +22,7 @@ export default function RootLayout() {
         <StatusBar style="dark" />
         <SplashScreenController />
         <RootNavigator />
+        <Toaster />
       </SessionProvider>
     </QueryClientProvider>
   )

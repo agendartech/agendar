@@ -1,15 +1,9 @@
 import { X } from "lucide-react-native"
 import { useState } from "react"
-import {
-  Alert,
-  Modal,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native"
+import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { AppButton } from "./button"
+import { Toaster, toast } from "./toast"
 
 interface CancelAppointmentDialogProps {
   visible: boolean
@@ -30,7 +24,7 @@ export function CancelAppointmentDialog({
 
   const handleConfirm = () => {
     if (!reason.trim()) {
-      Alert.alert("Atenção", "Por favor, informe o motivo do cancelamento.")
+      toast.error("Por favor, informe o motivo do cancelamento.")
       return
     }
 
@@ -127,6 +121,7 @@ export function CancelAppointmentDialog({
           </View>
         </View>
       </View>
+      <Toaster />
     </Modal>
   )
 }

@@ -2,14 +2,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { router } from "expo-router"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
-import {
-  Alert,
-  KeyboardAvoidingView,
-  ScrollView,
-  Text,
-  View,
-} from "react-native"
+import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useCreatePackage } from "@/hooks/data/packages/use-create-package"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
 import { createPackageSchema } from "@/lib/validations/packages"
@@ -48,7 +43,7 @@ export function CreatePackageForm() {
       )
 
       if (!uploaded) {
-        Alert.alert("Erro ao salvar imagem.")
+        toast.error("Erro ao salvar imagem.")
         return
       }
 
@@ -59,9 +54,11 @@ export function CreatePackageForm() {
         ...inputs,
       })
 
+      toast.success("Pacote criado com sucesso!")
+
       router.push(`/(tabs)/establishment/packages/${packageCreated.id}`)
     } catch (_e) {
-      Alert.alert("Erro ao cadastrar pacote.")
+      toast.error("Erro ao cadastrar pacote.")
     } finally {
       setLoading(false)
     }

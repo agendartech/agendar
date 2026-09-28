@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native"
 import type { z } from "zod"
+import { toast } from "@/components/toast"
 import { useUpdateService } from "@/hooks/data/services"
 import { useDeleteService } from "@/hooks/data/services/use-delete-service"
 import { StorageEntity, uploadImageToFirebase } from "@/lib/upload-image"
@@ -66,7 +67,7 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
       )
 
       if (!uploaded) {
-        Alert.alert("Erro ao salvar imagem.")
+        toast.error("Erro ao salvar imagem.")
         setLoading(false)
         return
       }
@@ -82,9 +83,11 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
           selectedCategoryIds.length > 0 ? selectedCategoryIds : undefined,
       })
 
+      toast.success("Serviço atualizado com sucesso!")
+
       router.back()
     } catch (_) {
-      Alert.alert("Erro ao atualizar serviço.")
+      toast.error("Erro ao atualizar serviço.")
     } finally {
       setLoading(false)
     }
@@ -111,9 +114,10 @@ export function EditServiceForm({ service }: EditServiceFormProps) {
           onPress: async () => {
             try {
               await deleteAsync(service.id)
+              toast.success("Serviço excluído com sucesso!")
               router.back()
             } catch {
-              Alert.alert("Erro ao excluir serviço.")
+              toast.error("Erro ao excluir serviço.")
             }
           },
         },

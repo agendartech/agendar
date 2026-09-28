@@ -89,7 +89,10 @@ export function AppointmentsTable({
                       style={{ color: employeeColor }}
                     />
                   </span>
-                  <span className="font-medium text-foreground">
+                  <span
+                    className="font-medium"
+                    style={{ color: employeeColor }}
+                  >
                     {appointment.professional.name}
                   </span>
                 </div>

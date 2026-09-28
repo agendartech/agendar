@@ -2,14 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { X } from "lucide-react-native"
 import { useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
-import {
-  Alert,
-  Modal,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native"
+import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { useCheckBonus } from "@/hooks/data/appointment/use-check-bonus"
 import { useCreateCheckin } from "@/hooks/data/appointment/use-create-checkin"
@@ -18,6 +11,7 @@ import { formatCentsToReal } from "@/utils/currency"
 import { AppButton } from "./button"
 import { Input } from "./input"
 import { Select, type SelectOption } from "./select"
+import { Toaster, toast } from "./toast"
 
 interface CheckinDialogProps {
   visible: boolean
@@ -158,17 +152,11 @@ export function CheckinDialog({
         ...data,
         appointmentId: appointment.id,
       })
-      Alert.alert("Sucesso", "Check-out realizado com sucesso!", [
-        {
-          text: "OK",
-          onPress: () => {
-            onSuccess?.()
-            onClose()
-          },
-        },
-      ])
+      toast.success("Check-out realizado com sucesso!")
+      onSuccess?.()
+      onClose()
     } catch (error) {
-      Alert.alert("Erro", String(error))
+      toast.error(String(error))
     }
   }
 
@@ -382,6 +370,7 @@ export function CheckinDialog({
           </View>
         </ScrollView>
       </View>
+      <Toaster />
     </Modal>
   )
 }
