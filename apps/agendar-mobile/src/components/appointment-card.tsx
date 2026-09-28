@@ -30,7 +30,7 @@ export function AppointmentCard({
   const showActions = appointment.status === "scheduled"
 
   return (
-    <View className="mb-2 px-3 py-2.5 bg-white border border-gray-200 rounded-lg">
+    <View className="mb-2 px-3 py-2.5 bg-white border border-gray-200 rounded-lg overflow-hidden">
       <View className="flex-row items-center justify-between gap-2">
         <View className="flex-row items-center flex-1 gap-1.5">
           <Text
@@ -86,24 +86,26 @@ export function AppointmentCard({
       </View>
 
       <View className="mt-1.5 flex-row items-center justify-between gap-2">
-        <View className="flex-row items-center gap-3">
+        <View className="flex-1 flex-row flex-wrap items-center gap-x-3 gap-y-1">
           <View className="flex-row items-center gap-1">
             <Calendar size={12} color="#6B7280" />
-            <Text className="text-xs text-gray-700">{date}</Text>
+            <Text className="text-xs text-gray-700" numberOfLines={1}>
+              {date}
+            </Text>
           </View>
           <View className="flex-row items-center gap-1">
             <Clock size={12} color="#6B7280" />
-            <Text className="text-xs text-gray-500">
+            <Text className="text-xs text-gray-500" numberOfLines={1}>
               {startTime} - {endTime}
             </Text>
           </View>
         </View>
 
         {showActions && (
-          <View className="flex-row gap-1.5">
+          <View className="shrink-0 gap-1.5">
             <TouchableOpacity
               onPress={() => onCheckIn?.(appointment.id)}
-              className="bg-blue-600 px-2.5 py-1.5 rounded-md"
+              className="bg-blue-600 px-2.5 py-1.5 rounded-md items-center"
             >
               <Text className="text-white text-xs font-semibold">
                 Check-out
@@ -111,7 +113,7 @@ export function AppointmentCard({
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => onCancel?.(appointment.id)}
-              className="border border-red-200 bg-red-50 px-2.5 py-1.5 rounded-md"
+              className="border border-red-200 bg-red-50 px-2.5 py-1.5 rounded-md items-center"
             >
               <Text className="text-red-600 text-xs font-semibold">
                 Cancelar
