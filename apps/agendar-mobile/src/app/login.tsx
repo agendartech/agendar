@@ -15,6 +15,7 @@ import {
 import type { z } from "zod"
 import { AppButton } from "@/components/button"
 import { Input } from "@/components/input"
+import { PasswordInput } from "@/components/password-input"
 import { toast } from "@/components/toast"
 import { login } from "@/http/auth/login"
 import { loginSchema } from "@/lib/validations/auth"
@@ -94,9 +95,8 @@ export default function Login() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <Input
+                <PasswordInput
                   placeholder="Digite sua senha"
-                  secureTextEntry
                   {...field}
                   onBlur={field.onBlur}
                   onChangeText={field.onChange}

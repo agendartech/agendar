@@ -20,6 +20,7 @@ import { AppButton } from "../button"
 import { EmployeeColorPicker } from "../employee-color-picker"
 import { ImagePickerControl } from "../image-picker"
 import { Input } from "../input"
+import { PasswordInput } from "../password-input"
 
 type Inputs = z.infer<typeof createEmployeeSchema>
 
@@ -153,9 +154,8 @@ export function CreateEmployeeForm() {
               control={form.control}
               name="password"
               render={({ field }) => (
-                <Input
+                <PasswordInput
                   placeholder="Senha do profissional"
-                  secureTextEntry
                   {...field}
                   onBlur={field.onBlur}
                   onChangeText={field.onChange}
