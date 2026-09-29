@@ -34,7 +34,7 @@ export function AppointmentCard({
       <View className="flex-row items-center justify-between gap-2">
         <View className="flex-row items-center flex-1 gap-1.5">
           <Text
-            className="font-semibold text-gray-900 text-sm shrink"
+            className="font-semibold text-gray-900 text-lg shrink"
             numberOfLines={1}
           >
             {appointment.customer.name}
@@ -46,11 +46,11 @@ export function AppointmentCard({
               }`}
             >
               <Package
-                size={10}
+                size={12}
                 color={appointment.package.paid ? "#15803d" : "#b45309"}
               />
               <Text
-                className={`ml-1 text-[12px] font-semibold ${
+                className={`ml-1 text-sm font-semibold ${
                   appointment.package.paid ? "text-green-800" : "text-amber-800"
                 }`}
               >
@@ -60,27 +60,27 @@ export function AppointmentCard({
             </View>
           )}
         </View>
-        <Badge variant={appointment.status}>
+        <Badge variant={appointment.status} textClassName="text-sm">
           {statusLabels[appointment.status]}
         </Badge>
       </View>
 
       <View className="mt-1.5 flex-row items-center gap-2">
         <View
-          className="w-5 h-5 rounded-full items-center justify-center"
+          className="w-6 h-6 rounded-full items-center justify-center"
           style={{ backgroundColor: `${employeeColor}26` }}
         >
-          <Briefcase size={11} color={employeeColor} />
+          <Briefcase size={13} color={employeeColor} />
         </View>
         <Text
-          className="text-xs font-medium shrink"
+          className="text-base font-medium shrink"
           style={{ color: employeeColor }}
           numberOfLines={1}
         >
           {appointment.professional.name}
         </Text>
-        <Text className="text-xs text-gray-400">•</Text>
-        <Text className="text-xs text-gray-700 flex-1" numberOfLines={1}>
+        <Text className="text-base text-gray-400">•</Text>
+        <Text className="text-base text-gray-700 flex-1" numberOfLines={1}>
           {appointment.service.name}
         </Text>
       </View>
@@ -88,14 +88,14 @@ export function AppointmentCard({
       <View className="mt-1.5 flex-row items-center justify-between gap-2">
         <View className="flex-1 flex-row flex-wrap items-center gap-x-3 gap-y-1">
           <View className="flex-row items-center gap-1">
-            <Calendar size={12} color="#6B7280" />
-            <Text className="text-xs text-gray-700" numberOfLines={1}>
+            <Calendar size={14} color="#6B7280" />
+            <Text className="text-base text-gray-700" numberOfLines={1}>
               {date}
             </Text>
           </View>
           <View className="flex-row items-center gap-1">
-            <Clock size={12} color="#6B7280" />
-            <Text className="text-xs text-gray-500" numberOfLines={1}>
+            <Clock size={14} color="#6B7280" />
+            <Text className="text-base text-gray-500" numberOfLines={1}>
               {startTime} - {endTime}
             </Text>
           </View>
@@ -107,7 +107,7 @@ export function AppointmentCard({
               onPress={() => onCheckIn?.(appointment.id)}
               className="bg-blue-600 px-2.5 py-1.5 rounded-md items-center"
             >
-              <Text className="text-white text-xs font-semibold">
+              <Text className="text-white text-base font-semibold">
                 Check-out
               </Text>
             </TouchableOpacity>
@@ -115,7 +115,7 @@ export function AppointmentCard({
               onPress={() => onCancel?.(appointment.id)}
               className="border border-red-200 bg-red-50 px-2.5 py-1.5 rounded-md items-center"
             >
-              <Text className="text-red-600 text-xs font-semibold">
+              <Text className="text-red-600 text-base font-semibold">
                 Cancelar
               </Text>
             </TouchableOpacity>

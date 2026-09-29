@@ -94,11 +94,11 @@ export function DailyRevenueChart({
         xAxisColor="#E5E7EB"
         yAxisTextStyle={{
           color: "#6B7280",
-          fontSize: 12,
+          fontSize: 10,
         }}
         xAxisLabelTextStyle={{
           color: "#6B7280",
-          fontSize: 12,
+          fontSize: 10,
           textAlign: "center",
         }}
         isAnimated
