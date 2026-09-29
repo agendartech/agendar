@@ -27,7 +27,7 @@ export function MetricCard({
     return (
       <View
         className={cn(
-          "bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
+          "flex-1 bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
           className
         )}
       >
@@ -41,7 +41,7 @@ export function MetricCard({
     return (
       <View
         className={cn(
-          "bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
+          "flex-1 bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
           className
         )}
       >
@@ -65,7 +65,7 @@ export function MetricCard({
   return (
     <View
       className={cn(
-        "bg-white rounded-xl p-4 border border-gray-200",
+        "flex-1 bg-white rounded-xl p-4 border border-gray-200 min-h-[120px]",
         className
       )}
     >
@@ -73,12 +73,25 @@ export function MetricCard({
         <View className="bg-gray-100 rounded-lg p-2">
           <Icon size={20} color="#000" />
         </View>
-        <Text className="text-sm font-medium text-gray-600 flex-1">
+        <Text
+          className="text-sm font-medium text-gray-600 flex-1"
+          numberOfLines={1}
+          adjustsFontSizeToFit
+        >
           {title}
         </Text>
       </View>
-      <Text className="text-2xl font-bold text-black mb-1">{value}</Text>
-      {subtitle && <Text className="text-xs text-gray-500">{subtitle}</Text>}
+      <Text
+        className="text-2xl font-bold text-black mb-1"
+        numberOfLines={1}
+        adjustsFontSizeToFit
+      >
+        {value}
+      </Text>
+      {/* Reserva a linha do subtítulo para os cards lado a lado ficarem alinhados */}
+      <Text className="text-xs text-gray-500" numberOfLines={2}>
+        {subtitle ?? " "}
+      </Text>
     </View>
   )
 }

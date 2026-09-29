@@ -5,12 +5,14 @@ interface BadgeProps {
   variant?: "scheduled" | "completed" | "canceled" | "default"
   children: React.ReactNode
   className?: string
+  textClassName?: string
 }
 
 export function Badge({
   variant = "default",
   children,
   className,
+  textClassName,
 }: BadgeProps) {
   const variantStyles = {
     scheduled: "bg-blue-100 text-blue-800",
@@ -27,7 +29,13 @@ export function Badge({
         className
       )}
     >
-      <Text className={cn("text-xs font-semibold", variantStyles[variant])}>
+      <Text
+        className={cn(
+          "text-xs font-semibold",
+          variantStyles[variant],
+          textClassName
+        )}
+      >
         {children}
       </Text>
     </View>
