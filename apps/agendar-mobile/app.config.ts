@@ -65,7 +65,9 @@ const config: ExpoConfig = {
       "expo-image-picker",
       {
         photosPermission:
-          "The app accesses your photos to let you share them with your friends.",
+          "O Agendar acessa suas fotos para que você escolha imagens para o logo do estabelecimento, serviços, pacotes e foto dos profissionais.",
+        cameraPermission: false,
+        microphonePermission: false,
       },
     ],
     [

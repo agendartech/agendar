@@ -1,9 +1,14 @@
 import { StatusBar } from "expo-status-bar"
-import { Linking, Text, View } from "react-native"
+import { useState } from "react"
+import { Linking, Text, TouchableOpacity, View } from "react-native"
 import { AppButton } from "@/components/button"
+import { DeleteAccountDialog } from "@/components/delete-account-dialog"
+import { useSession } from "@/providers/auth-context"
 
 export default function NotSubscription() {
   const PLANS_URL = "https://test.com.br/plans"
+  const { signOut } = useSession()
+  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false)
 
   function openPlansPage() {
     Linking.openURL(PLANS_URL)
@@ -26,6 +31,22 @@ export default function NotSubscription() {
         title="Ver planos"
         className="w-full"
         onPress={openPlansPage}
+      />
+
+      <TouchableOpacity onPress={signOut} className="py-3">
+        <Text className="text-white text-base">Sair</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => setDeleteDialogVisible(true)}
+        className="py-3"
+      >
+        <Text className="text-white/60 text-sm">Excluir conta</Text>
+      </TouchableOpacity>
+
+      <DeleteAccountDialog
+        visible={deleteDialogVisible}
+        onClose={() => setDeleteDialogVisible(false)}
       />
     </View>
   )
