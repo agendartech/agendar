@@ -41,6 +41,8 @@ export async function deletePartner(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
+        const partnerId = await request.getCurrentPartnerId()
+
         // getCurrentPartnerId() aceita token de funcionário e devolve o dono,
         // então o papel precisa ser checado aqui.
         const { role } = await request.jwtVerify<{ role?: string }>()
@@ -49,8 +51,6 @@ export async function deletePartner(app: FastifyInstance) {
             "Apenas o proprietário pode excluir a conta."
           )
         }
-
-        const partnerId = await request.getCurrentPartnerId()
         const { password } = request.body
 
         const partner = await db.query.partners.findFirst({
