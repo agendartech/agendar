@@ -32,7 +32,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#about"
+                  href="/#about"
                   className="text-gray-300 hover:text-[#F4C430] transition-colors"
                 >
                   Sobre Nós
@@ -40,7 +40,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#features"
+                  href="/#features"
                   className="text-gray-300 hover:text-[#F4C430] transition-colors"
                 >
                   Funcionalidades
@@ -48,7 +48,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#pricing"
+                  href="/#pricing"
                   className="text-gray-300 hover:text-[#F4C430] transition-colors"
                 >
                   Planos
@@ -63,7 +63,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="#faq"
+                  href="/#faq"
                   className="text-gray-300 hover:text-[#F4C430] transition-colors"
                 >
                   Perguntas Frequentes
@@ -76,6 +76,22 @@ export function Footer() {
                   className="text-gray-300 hover:text-[#F4C430] transition-colors"
                 >
                   Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/privacidade"
+                  className="text-gray-300 hover:text-[#F4C430] transition-colors"
+                >
+                  Política de Privacidade
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/excluir-conta"
+                  className="text-gray-300 hover:text-[#F4C430] transition-colors"
+                >
+                  Excluir conta
                 </Link>
               </li>
             </ul>

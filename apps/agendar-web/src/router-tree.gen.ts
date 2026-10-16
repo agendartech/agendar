@@ -21,11 +21,13 @@ import { Route as MarketingIndexRouteImport } from './pages/_marketing/index'
 import { Route as SlugIndexRouteImport } from './pages/$slug/index'
 import { Route as CheckoutSuccessRouteImport } from './pages/checkout/success'
 import { Route as CheckoutCancelRouteImport } from './pages/checkout/cancel'
+import { Route as MarketingPrivacidadeRouteImport } from './pages/_marketing/privacidade'
 import { Route as AuthResetPasswordRouteImport } from './pages/_auth/reset-password'
 import { Route as AuthRegisterRouteImport } from './pages/_auth/register'
 import { Route as AuthPreRegisterRouteImport } from './pages/_auth/pre-register'
 import { Route as AuthLoginRouteImport } from './pages/_auth/login'
 import { Route as AuthForgotPasswordRouteImport } from './pages/_auth/forgot-password'
+import { Route as AuthExcluirContaRouteImport } from './pages/_auth/excluir-conta'
 import { Route as AppStoreIndexRouteImport } from './pages/app/store/index'
 import { Route as AppServicesIndexRouteImport } from './pages/app/services/index'
 import { Route as AppPackagesIndexRouteImport } from './pages/app/packages/index'
@@ -107,6 +109,11 @@ const CheckoutCancelRoute = CheckoutCancelRouteImport.update({
   path: '/cancel',
   getParentRoute: () => CheckoutLayoutRoute,
 } as any)
+const MarketingPrivacidadeRoute = MarketingPrivacidadeRouteImport.update({
+  id: '/_marketing/privacidade',
+  path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -130,6 +137,11 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
+const AuthExcluirContaRoute = AuthExcluirContaRouteImport.update({
+  id: '/excluir-conta',
+  path: '/excluir-conta',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
 const AppStoreIndexRoute = AppStoreIndexRouteImport.update({
@@ -250,11 +262,13 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminLayoutRouteWithChildren
   '/app': typeof AppLayoutRouteWithChildren
   '/checkout': typeof CheckoutLayoutRouteWithChildren
+  '/excluir-conta': typeof AuthExcluirContaRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/pre-register': typeof AuthPreRegisterRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/privacidade': typeof MarketingPrivacidadeRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/$slug/': typeof SlugIndexRoute
@@ -285,11 +299,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof MarketingIndexRoute
+  '/excluir-conta': typeof AuthExcluirContaRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/pre-register': typeof AuthPreRegisterRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/privacidade': typeof MarketingPrivacidadeRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/$slug': typeof SlugIndexRoute
@@ -325,11 +341,13 @@ export interface FileRoutesById {
   '/admin': typeof AdminLayoutRouteWithChildren
   '/app': typeof AppLayoutRouteWithChildren
   '/checkout': typeof CheckoutLayoutRouteWithChildren
+  '/_auth/excluir-conta': typeof AuthExcluirContaRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/pre-register': typeof AuthPreRegisterRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
+  '/_marketing/privacidade': typeof MarketingPrivacidadeRoute
   '/checkout/cancel': typeof CheckoutCancelRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/$slug/': typeof SlugIndexRoute
@@ -367,11 +385,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/checkout'
+    | '/excluir-conta'
     | '/forgot-password'
     | '/login'
     | '/pre-register'
     | '/register'
     | '/reset-password'
+    | '/privacidade'
     | '/checkout/cancel'
     | '/checkout/success'
     | '/$slug/'
@@ -402,11 +422,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/excluir-conta'
     | '/forgot-password'
     | '/login'
     | '/pre-register'
     | '/register'
     | '/reset-password'
+    | '/privacidade'
     | '/checkout/cancel'
     | '/checkout/success'
     | '/$slug'
@@ -441,11 +463,13 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/checkout'
+    | '/_auth/excluir-conta'
     | '/_auth/forgot-password'
     | '/_auth/login'
     | '/_auth/pre-register'
     | '/_auth/register'
     | '/_auth/reset-password'
+    | '/_marketing/privacidade'
     | '/checkout/cancel'
     | '/checkout/success'
     | '/$slug/'
@@ -482,6 +506,7 @@ export interface RootRouteChildren {
   AdminLayoutRoute: typeof AdminLayoutRouteWithChildren
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   CheckoutLayoutRoute: typeof CheckoutLayoutRouteWithChildren
+  MarketingPrivacidadeRoute: typeof MarketingPrivacidadeRoute
   MarketingIndexRoute: typeof MarketingIndexRoute
 }
 
@@ -571,6 +596,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutCancelRouteImport
       parentRoute: typeof CheckoutLayoutRoute
     }
+    '/_marketing/privacidade': {
+      id: '/_marketing/privacidade'
+      path: '/privacidade'
+      fullPath: '/privacidade'
+      preLoaderRoute: typeof MarketingPrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/reset-password': {
       id: '/_auth/reset-password'
       path: '/reset-password'
@@ -604,6 +636,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_auth/excluir-conta': {
+      id: '/_auth/excluir-conta'
+      path: '/excluir-conta'
+      fullPath: '/excluir-conta'
+      preLoaderRoute: typeof AuthExcluirContaRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
     '/app/store/': {
@@ -771,6 +810,7 @@ const SlugLayoutRouteWithChildren = SlugLayoutRoute._addFileChildren(
 )
 
 interface AuthLayoutRouteChildren {
+  AuthExcluirContaRoute: typeof AuthExcluirContaRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthPreRegisterRoute: typeof AuthPreRegisterRoute
@@ -779,6 +819,7 @@ interface AuthLayoutRouteChildren {
 }
 
 const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
+  AuthExcluirContaRoute: AuthExcluirContaRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthPreRegisterRoute: AuthPreRegisterRoute,
@@ -876,6 +917,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLayoutRoute: AdminLayoutRouteWithChildren,
   AppLayoutRoute: AppLayoutRouteWithChildren,
   CheckoutLayoutRoute: CheckoutLayoutRouteWithChildren,
+  MarketingPrivacidadeRoute: MarketingPrivacidadeRoute,
   MarketingIndexRoute: MarketingIndexRoute,
 }
 export const routeTree = rootRouteImport
