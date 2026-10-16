@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar"
 import { useState } from "react"
-import { Linking, Text, TouchableOpacity, View } from "react-native"
+import { Linking, Platform, Text, TouchableOpacity, View } from "react-native"
 import { AppButton } from "@/components/button"
 import { DeleteAccountDialog } from "@/components/delete-account-dialog"
 import { useSession } from "@/providers/auth-context"
@@ -22,16 +22,26 @@ export default function NotSubscription() {
         Nenhum plano ativo
       </Text>
 
-      <Text className="text-white text-base text-center mb-10">
-        Você ainda não possui um plano ativo. Para continuar utilizando nossos
-        serviços, escolha um dos planos disponíveis no site.
-      </Text>
+      {/* A App Store não permite direcionar para compra externa (3.1.1). */}
+      {Platform.OS === "ios" ? (
+        <Text className="text-white text-base text-center mb-10">
+          Sua conta não possui um plano ativo no momento. Entre em contato com o
+          suporte para mais informações.
+        </Text>
+      ) : (
+        <>
+          <Text className="text-white text-base text-center mb-10">
+            Você ainda não possui um plano ativo. Para continuar utilizando
+            nossos serviços, escolha um dos planos disponíveis no site.
+          </Text>
 
-      <AppButton
-        title="Ver planos"
-        className="w-full"
-        onPress={openPlansPage}
-      />
+          <AppButton
+            title="Ver planos"
+            className="w-full"
+            onPress={openPlansPage}
+          />
+        </>
+      )}
 
       <TouchableOpacity onPress={signOut} className="py-3">
         <Text className="text-white text-base">Sair</Text>
