@@ -4,7 +4,7 @@ import { Linking, Platform, Text, TouchableOpacity, View } from "react-native"
 import { AppButton } from "@/components/button"
 
 export default function RegisterRedirect() {
-  const WEB_REGISTER_URL = "https://agendar-web-omega.vercel.app/pre-register"
+  const WEB_REGISTER_URL = `${process.env.EXPO_PUBLIC_WEB_URL}/pre-register`
 
   function openWebRegister() {
     Linking.openURL(WEB_REGISTER_URL)

@@ -49,7 +49,7 @@ export function UpdateEstablishmentForm({
   async function copyStoreLink() {
     const slug = form.watch("slug")
     if (slug) {
-      const link = `https://agendar-web-omega.vercel.app/${slug}`
+      const link = `${process.env.EXPO_PUBLIC_WEB_URL}/${slug}`
       await Clipboard.setStringAsync(link)
       toast.success("Link copiado!", {
         description: "O link da loja foi copiado para a área de transferência.",
