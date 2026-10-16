@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify"
 import { createPartner } from "@/routes/partner/create-partner"
 import { createPrePartner } from "@/routes/partner/create-pre-partner"
+import { deletePartner } from "@/routes/partner/delete-partner"
 import { forgotPassword } from "@/routes/partner/forgot-password"
 import { getPartner } from "@/routes/partner/get-partner"
 import { login } from "@/routes/partner/login"
@@ -13,4 +14,5 @@ export async function partnerRoutes(app: FastifyInstance) {
   await createPrePartner(app)
   await forgotPassword(app)
   await resetPassword(app)
+  await deletePartner(app)
 }
