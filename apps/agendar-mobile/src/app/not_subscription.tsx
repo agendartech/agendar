@@ -6,7 +6,7 @@ import { DeleteAccountDialog } from "@/components/delete-account-dialog"
 import { useSession } from "@/providers/auth-context"
 
 export default function NotSubscription() {
-  const PLANS_URL = "https://test.com.br/plans"
+  const PLANS_URL = `${process.env.EXPO_PUBLIC_WEB_URL}/#planos`
   const { signOut } = useSession()
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false)
 
