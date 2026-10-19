@@ -119,6 +119,10 @@ identidade** do usuário e usados apenas para **Funcionalidade do app**:
 
 ## Screenshots
 
+Imagens prontas em `docs/lojas/`: `icone-512.png` (ícone Google Play
+512×512) e `destaque-1024x500.png` (imagem de destaque Google Play).
+
+
 - Google: mínimo 2 capturas de telefone (proporção 16:9 ou 9:16) + ícone
   512×512 + imagem de destaque 1024×500.
 - Apple: iPhone 6,9" (1320×2868) ou 6,7" (1290×2796). O app não suporta iPad
