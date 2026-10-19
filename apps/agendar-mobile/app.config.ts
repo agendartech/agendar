@@ -42,6 +42,8 @@ const config: ExpoConfig = {
     package: bundleIdentifier,
     googleServicesFile: googleServicesFileAndroid,
     softwareKeyboardLayoutMode: "resize",
+    // O app não usa ID de publicidade (declarado assim na Play Console)
+    blockedPermissions: ["com.google.android.gms.permission.AD_ID"],
   },
   // web: {
   //   bundler: "metro",
