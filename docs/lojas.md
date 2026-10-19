@@ -3,6 +3,9 @@
 Material para preencher a Play Console e o App Store Connect. App:
 `br.tec.agendar` (Android e iOS), nome "Agendar".
 
+Como gerar e enviar versões Android e o status da Google Play:
+[`publicacao-android.md`](publicacao-android.md).
+
 ## URLs
 
 | Campo | URL |
