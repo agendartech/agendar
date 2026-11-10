@@ -3,6 +3,9 @@
 Material para preencher a Play Console e o App Store Connect. App:
 `br.tec.agendar` (Android e iOS), nome "Agendar".
 
+Como gerar e enviar versões Android e o status da Google Play:
+[`publicacao-android.md`](publicacao-android.md).
+
 ## URLs
 
 | Campo | URL |
@@ -130,3 +133,38 @@ Imagens prontas em `docs/lojas/`: `icone-512.png` (ícone Google Play
 
 Telas sugeridas: Agenda do dia, Relatórios, Profissionais, Serviços, Clientes,
 Detalhe do agendamento.
+
+## Resposta à Apple — Guideline 2.1 (Information Needed)
+
+Recusa recebida em 11/2026 pedindo vídeo, descrição e credenciais. Texto para
+o campo **Notes** de *App Review Information* (limite de 4000 caracteres).
+Trocar os `<...>` antes de enviar.
+
+```
+1. SCREEN RECORDING
+<link do vídeo: YouTube não listado ou Google Drive com acesso público>
+Recorded on <modelo do iPhone>, iOS <versão>. It starts at app launch and shows: login as owner, daily agenda, check-in and completing an appointment, cancelling an appointment, managing services/professionals/customers, reports, logout, login as a professional (employee view), and account deletion (Settings > Excluir conta).
+
+2. PURPOSE AND AUDIENCE
+Agendar is a management tool for appointment-based businesses in Brazil (beauty salons, barbershops, aesthetic clinics). Business owners use it to manage their daily agenda, services, professionals, customers, service packages, loyalty programs and revenue reports. Their customers book online through the business's public web page, and the owner receives a push notification for each new booking. It replaces paper agendas and WhatsApp-only scheduling, reducing no-shows and making commission calculation automatic. The app is open to any business in Brazil; it is not limited to a specific company.
+
+3. HOW TO ACCESS
+The app has two account types. Both demo accounts below have sample data.
+- Owner (full access): <email> / <senha>
+- Professional (sees only own agenda and earnings): <email> / <senha>
+Steps: open the app, log in with the owner account. Agenda tab: view, check in, complete or cancel appointments. Loja tab: services, professionals, customers, packages, loyalty, business hours. Relatórios tab: revenue and commissions. Configurações tab: privacy policy, support and "Excluir conta" (account deletion, permanent).
+Owner accounts are created and subscribed on our website (agendar.tec.br). The iOS app does not offer registration, does not sell or link to any purchase and contains no paid digital content; it is a companion app for an existing business account (B2B SaaS). Professional accounts are created by the owner inside the app.
+There is no user-generated content shared between users, so no reporting/blocking is needed.
+
+4. EXTERNAL SERVICES
+- Own backend API (agendar.tec.br) with email/password authentication (JWT)
+- Firebase Cloud Messaging (push notifications) and Firebase Storage (images)
+- Resend (transactional email)
+- Stripe (subscription billing on the website only; not used in the app)
+
+5. REGIONAL DIFFERENCES
+The app is in Brazilian Portuguese and prices are in BRL. Features and content are the same in every region.
+
+6. REGULATED INDUSTRY
+Not applicable. The app does not operate in a regulated industry and contains no protected third-party material.
+```
