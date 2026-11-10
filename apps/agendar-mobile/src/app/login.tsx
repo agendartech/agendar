@@ -131,14 +131,18 @@ export default function Login() {
             Esqueci minha senha
           </Text>
 
-          <Text
-            className="text-center mt-2 text-white"
-            onPress={() => {
-              router.push("/register")
-            }}
-          >
-            Não tem uma conta? Cadastre-se
-          </Text>
+          {/* No iOS o cadastro leva à contratação de plano no site, o que a
+              Apple trata como compra externa (App Store 3.1.1). */}
+          {Platform.OS !== "ios" && (
+            <Text
+              className="text-center mt-2 text-white"
+              onPress={() => {
+                router.push("/register")
+              }}
+            >
+              Não tem uma conta? Cadastre-se
+            </Text>
+          )}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
