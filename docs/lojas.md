@@ -161,7 +161,6 @@ There is no user-generated content shared between users, so no reporting/blockin
 - Firebase Cloud Messaging (push notifications) and Firebase Storage (images)
 - Resend (transactional email)
 - Stripe (subscription billing on the website only; not used in the app)
-- Z-API (WhatsApp booking confirmations sent to end customers)
 
 5. REGIONAL DIFFERENCES
 The app is in Brazilian Portuguese and prices are in BRL. Features and content are the same in every region.
