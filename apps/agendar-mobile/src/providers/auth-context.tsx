@@ -65,9 +65,11 @@ export function SessionProvider({
   function signOut() {
     setSession(null)
     setStoredRole(null)
+    setEstablishmentId(null)
     setPartner(null)
     setEmployee(null)
-    queryClient.invalidateQueries()
+    // clear, não invalidate: o próximo login não pode ver o cache do anterior
+    queryClient.clear()
   }
 
   function signIn(token: string, userRole: UserRole) {
