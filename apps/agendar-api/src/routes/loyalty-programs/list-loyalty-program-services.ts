@@ -1,12 +1,13 @@
-import { eq } from "drizzle-orm"
+import { and, eq } from "drizzle-orm"
 import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 import { db } from "@/db"
-import { loyaltyPointRules } from "@/db/schema"
+import { loyaltyPointRules, loyaltyPrograms } from "@/db/schema"
 import { services } from "@/db/schema/services"
 import { auth } from "@/middlewares/auth"
 import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
+import { BadRequestError } from "@/routes/_erros/bad-request-error"
 
 export async function listLoyaltyProgramServices(app: FastifyInstance) {
   await app.register(async app => {
@@ -36,6 +37,19 @@ export async function listLoyaltyProgramServices(app: FastifyInstance) {
       },
       async (request, reply) => {
         const { programId } = request.params
+        const { establishmentId } = await request.getCurrentEstablishmentId()
+
+        const program = await db.query.loyaltyPrograms.findFirst({
+          where: and(
+            eq(loyaltyPrograms.id, programId),
+            eq(loyaltyPrograms.establishmentId, establishmentId)
+          ),
+          columns: { id: true },
+        })
+
+        if (!program) {
+          throw new BadRequestError("Programa de fidelidade não encontrado")
+        }
 
         const result = await db
           .select({

@@ -11,20 +11,21 @@ Autenticação de proprietários/partners via JWT.
 ```typescript
 request.getCurrentPartnerId(): Promise<string>
 // Extrai partnerId do JWT (campo 'sub')
-// Verifica que role !== "employee" (ForbiddenError se for)
+// Para employee: só em EMPLOYEE_ALLOWED_ROUTES, retornando o dono da filial
 // Tokens sem role são tratados como partner (backward compat)
 // Throws UnauthorizedError se token inválido
 
-request.getCurrentEstablishmentId(): Promise<{ establishmentId: string, partnerId: string }>
+request.getCurrentEstablishmentId(): Promise<{ establishmentId: string, partnerId: string, employeeId?: string }>
 // 1. Obtém partnerId do token
-// 2. Se header 'x-establishment-id' presente:
+// 2. Se employee: retorna a filial do token + employeeId (ignora o header)
+// 3. Se header 'x-establishment-id' presente:
 //    - Valida se partner é dono do establishment
 //    - Throws ForbiddenError se não for
-// 3. Se header ausente:
+// 4. Se header ausente:
 //    - Retorna primeiro establishment do partner
 ```
 
-**Importante**: Todas as rotas que usam `auth.ts` estão automaticamente protegidas contra acesso de employees, pois `getCurrentPartnerId()` rejeita tokens com `role: "employee"`.
+**Importante**: employees só acessam as rotas de `EMPLOYEE_ALLOWED_ROUTES`. Rotas dessa lista que tocam agendamentos devem filtrar pelo `employeeId` retornado. A checagem só roda se o handler chamar `getCurrentPartnerId()` ou `getCurrentEstablishmentId()`.
 
 ## employee-auth.ts (Employee Auth)
 

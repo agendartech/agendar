@@ -1,6 +1,14 @@
 import { X } from "lucide-react-native"
 import { useState } from "react"
-import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native"
+import {
+  KeyboardAvoidingView,
+  Modal,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native"
 import type { Appointment } from "@/hooks/data/appointment/use-appointments"
 import { AppButton } from "./button"
 import { Toaster, toast } from "./toast"
@@ -48,79 +56,91 @@ export function CancelAppointmentDialog({
       onRequestClose={handleClose}
       transparent
     >
-      <View className="flex-1 bg-black/50 justify-center items-center p-4">
-        <View className="bg-white rounded-lg w-full max-w-md">
-          {/* Header */}
-          <View className="flex-row items-center justify-between p-4 border-b border-gray-200">
-            <Text className="text-xl font-semibold text-red-600">
-              Cancelar Agendamento
-            </Text>
-            <TouchableOpacity
-              onPress={handleClose}
-              className="p-2"
-              disabled={isLoading}
-            >
-              <X size={24} color="#374151" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Content */}
-          <View className="p-4 gap-4">
-            {/* Appointment Info */}
-            <View className="bg-gray-50 p-4 rounded-lg gap-2">
-              <Text className="text-base font-semibold">
-                {appointment.customer.name}
+      <KeyboardAvoidingView behavior="padding" className="flex-1 bg-black/50">
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 16,
+          }}
+        >
+          <View className="bg-white rounded-lg w-full max-w-md">
+            {/* Header */}
+            <View className="flex-row items-center justify-between p-4 border-b border-gray-200">
+              <Text className="text-xl font-semibold text-red-600">
+                Cancelar Agendamento
               </Text>
-              <Text className="text-gray-600">{appointment.service.name}</Text>
-              <Text className="text-gray-600">
-                Profissional: {appointment.professional.name}
-              </Text>
-            </View>
-
-            {/* Reason Input */}
-            <View className="gap-2">
-              <Text className="text-sm font-medium text-gray-700">
-                Motivo do cancelamento *
-              </Text>
-              <TextInput
-                className="border border-gray-300 rounded-lg p-3 text-base min-h-24"
-                placeholder="Informe o motivo do cancelamento..."
-                value={reason}
-                onChangeText={setReason}
-                multiline
-                numberOfLines={4}
-                textAlignVertical="top"
-                editable={!isLoading}
-              />
-            </View>
-
-            {/* Warning */}
-            <View className="bg-red-50 border border-red-200 p-3 rounded-lg">
-              <Text className="text-red-800 text-sm">
-                Esta ação não pode ser desfeita. O agendamento será cancelado
-                permanentemente.
-              </Text>
-            </View>
-
-            {/* Actions */}
-            <View className="gap-3 mt-2">
-              <AppButton
-                title="Confirmar Cancelamento"
-                onPress={handleConfirm}
-                loading={isLoading}
-                disabled={isLoading || !reason.trim()}
-                theme="danger"
-              />
-              <AppButton
-                title="Voltar"
+              <TouchableOpacity
                 onPress={handleClose}
+                className="p-2"
                 disabled={isLoading}
-                theme="secondary"
-              />
+              >
+                <X size={24} color="#374151" />
+              </TouchableOpacity>
+            </View>
+
+            {/* Content */}
+            <View className="p-4 gap-4">
+              {/* Appointment Info */}
+              <View className="bg-gray-50 p-4 rounded-lg gap-2">
+                <Text className="text-base font-semibold">
+                  {appointment.customer.name}
+                </Text>
+                <Text className="text-gray-600">
+                  {appointment.service.name}
+                </Text>
+                <Text className="text-gray-600">
+                  Profissional: {appointment.professional.name}
+                </Text>
+              </View>
+
+              {/* Reason Input */}
+              <View className="gap-2">
+                <Text className="text-sm font-medium text-gray-700">
+                  Motivo do cancelamento *
+                </Text>
+                <TextInput
+                  className="border border-gray-300 rounded-lg p-3 text-base min-h-24"
+                  placeholder="Informe o motivo do cancelamento..."
+                  value={reason}
+                  onChangeText={setReason}
+                  multiline
+                  numberOfLines={4}
+                  textAlignVertical="top"
+                  editable={!isLoading}
+                />
+              </View>
+
+              {/* Warning */}
+              <View className="bg-red-50 border border-red-200 p-3 rounded-lg">
+                <Text className="text-red-800 text-sm">
+                  Esta ação não pode ser desfeita. O agendamento será cancelado
+                  permanentemente.
+                </Text>
+              </View>
+
+              {/* Actions */}
+              <View className="gap-3 mt-2">
+                <AppButton
+                  title="Confirmar Cancelamento"
+                  onPress={handleConfirm}
+                  loading={isLoading}
+                  disabled={isLoading || !reason.trim()}
+                  theme="danger"
+                />
+                <AppButton
+                  title="Voltar"
+                  onPress={handleClose}
+                  disabled={isLoading}
+                  theme="secondary"
+                />
+              </View>
             </View>
           </View>
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
       <Toaster />
     </Modal>
   )

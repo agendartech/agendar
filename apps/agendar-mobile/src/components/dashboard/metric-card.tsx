@@ -27,7 +27,7 @@ export function MetricCard({
     return (
       <View
         className={cn(
-          "flex-1 bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
+          "grow bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
           className
         )}
       >
@@ -41,7 +41,7 @@ export function MetricCard({
     return (
       <View
         className={cn(
-          "flex-1 bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
+          "grow bg-white rounded-xl p-4 border border-gray-200 min-h-[120px] justify-center items-center",
           className
         )}
       >
@@ -65,7 +65,7 @@ export function MetricCard({
   return (
     <View
       className={cn(
-        "flex-1 bg-white rounded-xl p-4 border border-gray-200 min-h-[120px]",
+        "grow bg-white rounded-xl p-4 border border-gray-200 min-h-[120px]",
         className
       )}
     >

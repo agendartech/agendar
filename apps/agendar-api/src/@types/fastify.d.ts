@@ -6,6 +6,7 @@ declare module "fastify" {
     getCurrentEstablishmentId(): Promise<{
       establishmentId: string
       partnerId: string
+      employeeId?: string
     }>
     getCurrentCustomerId(): Promise<string>
     getCurrentCustomerEstablishmentId(): Promise<{

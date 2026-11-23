@@ -6,6 +6,17 @@ import { employees, establishments } from "@/db/schema"
 import { ForbiddenError } from "@/routes/_erros/forbidden-request-error"
 import { UnauthorizedError } from "@/routes/_erros/unauthorized-error"
 
+// Únicas rotas de partner liberadas ao employee; as de agendamento filtram
+// pelo employeeId retornado em getCurrentEstablishmentId.
+const EMPLOYEE_ALLOWED_ROUTES = new Set([
+  "GET /establishments",
+  "GET /establishments/appointments",
+  "GET /services",
+  "GET /check-bonus",
+  "PATCH /partner/appointments/:id/cancel",
+  "PATCH /partner/appointments/:id/status",
+])
+
 export const auth = fastifyPlugin(async (app: FastifyInstance) => {
   app.addHook("preHandler", async request => {
     request.getCurrentPartnerId = async () => {
@@ -21,6 +32,11 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
             throw new UnauthorizedError("Invalid employee token")
           }
 
+          const route = `${request.method} ${request.routeOptions.url}`
+          if (!EMPLOYEE_ALLOWED_ROUTES.has(route)) {
+            throw new ForbiddenError("You do not have access to this resource")
+          }
+
           const establishment = await db.query.establishments.findFirst({
             where: eq(establishments.id, establishmentId),
             columns: { ownerId: true },
@@ -31,7 +47,10 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
           }
 
           const employee = await db.query.employees.findFirst({
-            where: eq(employees.id, sub),
+            where: and(
+              eq(employees.id, sub),
+              eq(employees.establishmentId, establishmentId)
+            ),
             columns: { id: true },
           })
 
@@ -52,6 +71,21 @@ export const auth = fastifyPlugin(async (app: FastifyInstance) => {
 
     request.getCurrentEstablishmentId = async () => {
       const partnerId = await request.getCurrentPartnerId()
+      const token = await request.jwtVerify<{
+        sub: string
+        role?: string
+        establishmentId?: string
+      }>()
+
+      // Employee fica preso à filial do token; o header não pode trocá-la.
+      if (token.role === "employee" && token.establishmentId) {
+        return {
+          establishmentId: token.establishmentId,
+          partnerId,
+          employeeId: token.sub,
+        }
+      }
+
       const establishmentId = request.headers["x-establishment-id"] as string
 
       if (establishmentId) {

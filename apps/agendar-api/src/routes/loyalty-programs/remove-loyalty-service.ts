@@ -3,9 +3,10 @@ import type { FastifyInstance } from "fastify"
 import type { ZodTypeProvider } from "fastify-type-provider-zod"
 import z from "zod"
 import { db } from "@/db"
-import { loyaltyPointRules } from "@/db/schema"
+import { loyaltyPointRules, loyaltyPrograms } from "@/db/schema"
 import { auth } from "@/middlewares/auth"
 import { requireActiveSubscription } from "@/middlewares/require-active-subscription"
+import { BadRequestError } from "@/routes/_erros/bad-request-error"
 
 export async function removeLoyaltyService(app: FastifyInstance) {
   await app.register(async app => {
@@ -30,6 +31,19 @@ export async function removeLoyaltyService(app: FastifyInstance) {
       },
       async (request, reply) => {
         const { programId, serviceId } = request.params
+        const { establishmentId } = await request.getCurrentEstablishmentId()
+
+        const program = await db.query.loyaltyPrograms.findFirst({
+          where: and(
+            eq(loyaltyPrograms.id, programId),
+            eq(loyaltyPrograms.establishmentId, establishmentId)
+          ),
+          columns: { id: true },
+        })
+
+        if (!program) {
+          throw new BadRequestError("Programa de fidelidade não encontrado")
+        }
 
         await db
           .delete(loyaltyPointRules)
