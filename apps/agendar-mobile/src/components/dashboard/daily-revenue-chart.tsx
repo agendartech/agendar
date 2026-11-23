@@ -28,7 +28,12 @@ export function DailyRevenueChart({
 
     return data.items.map(item => ({
       value: item.value / 100,
-      label: format(parseISO(item.date), "dd/MM", { locale: ptBR }),
+      // "dd/MM" não cabe na coluna estreita de períodos longos
+      label: format(
+        parseISO(item.date),
+        data.items.length > 15 ? "dd" : "dd/MM",
+        { locale: ptBR }
+      ),
       frontColor: "#EF4444",
       onPress: () => {
         setSelectedBar({
@@ -84,7 +89,8 @@ export function DailyRevenueChart({
 
       <BarChart
         data={chartData}
-        width={screenWidth - 64}
+        // a lib soma os 35px do eixo Y à largura informada
+        width={screenWidth - 64 - 35}
         height={220}
         barWidth={chartData.length > 15 ? 12 : 22}
         spacing={chartData.length > 15 ? 8 : 16}
@@ -103,8 +109,6 @@ export function DailyRevenueChart({
         }}
         isAnimated
         animationDuration={500}
-        showGradient
-        gradientColor="#EF4444"
         frontColor="#EF4444"
       />
     </View>
