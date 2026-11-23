@@ -39,11 +39,15 @@ export async function checkBonus(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
+        const { establishmentId } = await request.getCurrentEstablishmentId()
         const { customerId, serviceId } = request.query
 
         // Busca o programa de fidelidade que tem o serviço como recompensa
         const loyaltyProgram = await db.query.loyaltyPrograms.findFirst({
-          where: eq(loyaltyPrograms.serviceRewardId, serviceId),
+          where: and(
+            eq(loyaltyPrograms.serviceRewardId, serviceId),
+            eq(loyaltyPrograms.establishmentId, establishmentId)
+          ),
           with: {
             rewardService: true,
           },

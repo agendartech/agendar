@@ -33,7 +33,8 @@ export async function cancelAppointment(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const { establishmentId } = await request.getCurrentEstablishmentId()
+        const { establishmentId, employeeId } =
+          await request.getCurrentEstablishmentId()
         const { id } = request.params
         const { reason } = request.body
 
@@ -43,7 +44,8 @@ export async function cancelAppointment(app: FastifyInstance) {
           .where(
             and(
               eq(appointments.id, id),
-              eq(appointments.establishmentId, establishmentId)
+              eq(appointments.establishmentId, establishmentId),
+              employeeId ? eq(appointments.employeeId, employeeId) : undefined
             )
           )
 
