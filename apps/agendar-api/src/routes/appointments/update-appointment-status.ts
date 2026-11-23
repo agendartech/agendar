@@ -46,11 +46,16 @@ export async function updateAppointmentStatus(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const { establishmentId } = await request.getCurrentEstablishmentId()
+        const { establishmentId, employeeId } =
+          await request.getCurrentEstablishmentId()
         const { id } = request.params
         const { status, paymentAmount, paymentNote, paymentType } = request.body
 
-        const appointment = await validateAppointment(id, establishmentId)
+        const appointment = await validateAppointment(
+          id,
+          establishmentId,
+          employeeId
+        )
 
         validateStatusChange(appointment.status, status)
 
@@ -243,7 +248,8 @@ async function handlePackageUsageOnCompletion(
  */
 async function validateAppointment(
   appointmentId: string,
-  establishmentId: string
+  establishmentId: string,
+  employeeId?: string
 ) {
   const [appointment] = await db
     .select()
@@ -251,7 +257,8 @@ async function validateAppointment(
     .where(
       and(
         eq(appointments.id, appointmentId),
-        eq(appointments.establishmentId, establishmentId)
+        eq(appointments.establishmentId, establishmentId),
+        employeeId ? eq(appointments.employeeId, employeeId) : undefined
       )
     )
 

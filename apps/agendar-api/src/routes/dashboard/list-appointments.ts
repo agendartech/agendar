@@ -79,16 +79,11 @@ export async function listAppointments(app: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const { establishmentId } = await request.getCurrentEstablishmentId()
-        const {
-          page,
-          perPage,
-          startDate,
-          endDate,
-          status,
-          employeeId,
-          serviceId,
-        } = request.query
+        const { establishmentId, employeeId: currentEmployeeId } =
+          await request.getCurrentEstablishmentId()
+        const { page, perPage, startDate, endDate, status, serviceId } =
+          request.query
+        const employeeId = currentEmployeeId ?? request.query.employeeId
 
         const offset = (page - 1) * perPage
 

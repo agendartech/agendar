@@ -68,7 +68,7 @@ db.query.appointments.findFirst({
 - Token contém `{ sub: partnerId, role: "partner" }`
 - Header `x-establishment-id` roteia para estabelecimento
 - `request.getCurrentPartnerId()` e `request.getCurrentEstablishmentId()`
-- Rejeita tokens com `role: "employee"` (ForbiddenError)
+- Tokens `role: "employee"` só passam nas rotas de `EMPLOYEE_ALLOWED_ROUTES` (`middlewares/auth.ts`), limitados aos próprios agendamentos
 - Tokens antigos sem `role` são tratados como partner (backward compat)
 
 ### Employee Auth (JWT)

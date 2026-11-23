@@ -1,4 +1,4 @@
-import { CalendarX, ChevronDown, ChevronUp } from "lucide-react-native"
+import { CalendarX, ChevronDown, ChevronUp, LogOut } from "lucide-react-native"
 import { useState } from "react"
 import {
   ActivityIndicator,
@@ -25,8 +25,11 @@ import { useEmployees } from "@/hooks/data/employees/use-employees"
 import { useEstablishment } from "@/hooks/data/establishment/use-establishment"
 import { useServices } from "@/hooks/data/services/use-services"
 import { useAgendaFilters } from "@/hooks/use-agenda-filters"
+import { useSession } from "@/providers/auth-context"
 
 export default function Appointments() {
+  const { role, employee: currentEmployee, signOut } = useSession()
+  const isEmployee = role === "employee"
   const [selectedEmployee, setSelectedEmployee] = useState<string>("")
   const [selectedService, setSelectedService] = useState<string>("")
   const [selectedStatus, setSelectedStatus] = useState<
@@ -92,7 +95,7 @@ export default function Appointments() {
     setSelectedAppointment(null)
   }
 
-  const { data: employees } = useEmployees()
+  const { data: employees } = useEmployees(!isEmployee)
   const { data: services } = useServices()
   const { data: establishment } = useEstablishment()
 
@@ -100,7 +103,9 @@ export default function Appointments() {
     startDate,
     endDate,
     status: selectedStatus || undefined,
-    employeeId: selectedEmployee || undefined,
+    employeeId: isEmployee
+      ? currentEmployee?.id
+      : selectedEmployee || undefined,
     serviceId: selectedService || undefined,
   })
 
@@ -137,10 +142,28 @@ export default function Appointments() {
               </View>
             )}
 
-            <Text className="text-xl font-bold text-gray-800 flex-1">
-              {establishment?.name || "Carregando..."}
-            </Text>
+            <View className="flex-1">
+              <Text className="text-xl font-bold text-gray-800">
+                {establishment?.name || "Carregando..."}
+              </Text>
+              {isEmployee && currentEmployee && (
+                <Text className="text-sm text-gray-500" numberOfLines={1}>
+                  Logado como {currentEmployee.name}
+                </Text>
+              )}
+            </View>
           </Pressable>
+          {isEmployee && (
+            <TouchableOpacity
+              onPress={signOut}
+              accessibilityRole="button"
+              accessibilityLabel="Sair da conta"
+              className="flex-row items-center gap-1 p-2 mr-1"
+            >
+              <LogOut size={18} color="#DC2626" />
+              <Text className="text-sm font-medium text-red-600">Sair</Text>
+            </TouchableOpacity>
+          )}
           <Image
             source={require("../../../assets/agendar-logo.png")}
             className="w-10 h-10"
@@ -251,52 +274,56 @@ export default function Appointments() {
               </View>
 
               {/* Filtro de Profissional */}
-              <View>
-                <Text className="text-sm font-medium text-gray-700 mb-2">
-                  Profissional
-                </Text>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  className="flex-row gap-2"
-                >
-                  <TouchableOpacity
-                    onPress={() => setSelectedEmployee("")}
-                    className={`px-4 py-2 rounded-full ${
-                      selectedEmployee === "" ? "bg-blue-600" : "bg-gray-200"
-                    }`}
+              {!isEmployee && (
+                <View>
+                  <Text className="text-sm font-medium text-gray-700 mb-2">
+                    Profissional
+                  </Text>
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    className="flex-row gap-2"
                   >
-                    <Text
-                      className={
-                        selectedEmployee === "" ? "text-white" : "text-gray-700"
-                      }
-                    >
-                      Todos
-                    </Text>
-                  </TouchableOpacity>
-                  {employees?.map(employee => (
                     <TouchableOpacity
-                      key={employee.id}
-                      onPress={() => setSelectedEmployee(employee.id)}
+                      onPress={() => setSelectedEmployee("")}
                       className={`px-4 py-2 rounded-full ${
-                        selectedEmployee === employee.id
-                          ? "bg-blue-600"
-                          : "bg-gray-200"
+                        selectedEmployee === "" ? "bg-blue-600" : "bg-gray-200"
                       }`}
                     >
                       <Text
                         className={
-                          selectedEmployee === employee.id
+                          selectedEmployee === ""
                             ? "text-white"
                             : "text-gray-700"
                         }
                       >
-                        {employee.name}
+                        Todos
                       </Text>
                     </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
+                    {employees?.map(employee => (
+                      <TouchableOpacity
+                        key={employee.id}
+                        onPress={() => setSelectedEmployee(employee.id)}
+                        className={`px-4 py-2 rounded-full ${
+                          selectedEmployee === employee.id
+                            ? "bg-blue-600"
+                            : "bg-gray-200"
+                        }`}
+                      >
+                        <Text
+                          className={
+                            selectedEmployee === employee.id
+                              ? "text-white"
+                              : "text-gray-700"
+                          }
+                        >
+                          {employee.name}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
 
               <View>
                 <Text className="text-sm font-medium text-gray-700 mb-2">
